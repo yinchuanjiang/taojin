@@ -24,6 +24,7 @@ class CaptchaUtil
      */
     public static function send($mobile,$type)
     {
+        $message = '';
         switch ($type){
             case CaptchaEnum::REGISTER:
                 $user = User::where('mobile',$mobile)->first();
