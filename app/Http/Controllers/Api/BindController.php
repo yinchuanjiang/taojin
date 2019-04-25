@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Core\Core;
 use App\Http\Core\Util\CaptchaUtil;
+use App\Http\Proxy\TokenProxy;
 use App\Http\Requests\Api\BindRequest;
 use App\Models\Enum\CaptchaEnum;
 use App\Models\User;
@@ -29,6 +30,7 @@ class BindController extends Controller
      * @apiParam {String} wx_oauth  微信登录唯一凭证(必填)
      * @apiParam {String} mobile    手机号(必填)
      * @apiParam {String} code      密码(必填)
+     * @apiParam {String} avatar    头像(必填)
      * @apiPermission 无
      * @apiName bind
      * @apiGroup B-bind
@@ -71,7 +73,7 @@ class BindController extends Controller
     public function bind(BindRequest $request)
     {
         $data = $request->all();
-        if (!$captcha = CaptchaUtil::check($data['code'], $data['mobile'], CaptchaEnum::BIND_WEICHAT)) {
+        if (!($captcha = CaptchaUtil::check($data['code'], $data['mobile'], CaptchaEnum::BIND_WEICHAT))) {
             return show(Core::HTTP_ERROR_CODE, '验证码错误或过期');
         }
         $user = User::where('mobile',$data['mobile'])->first();
@@ -87,6 +89,8 @@ class BindController extends Controller
         if (!$token) {
             return show(Core::HTTP_ERROR_CODE, '系统异常');
         }
+        $captcha->is_used = CaptchaEnum::CAPTCHA_USED_TRUE;
+        $captcha->save();
 
         return show(
             Core::HTTP_SUCCESS_CODE,

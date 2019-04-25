@@ -3,40 +3,40 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Core\Core;
-use App\Http\Resources\Api\BannerResource;
-use App\Http\Resources\Api\HomeResource;
-use App\Models\Banner;
-use App\Models\Enum\BannerEnum;
-use App\Models\Enum\HomeEnum;
-use App\Models\Home;
+use App\Http\Resources\Api\GoodResource;
+use App\Models\Enum\GoodEnum;
+use App\Models\Good;
+use App\Http\Controllers\Controller;
 
-class HomeController extends ApiBaseController
+class GoodController extends Controller
 {
     /**
-     * @api {POST} home 首页
-     * @apiSampleRequest home
+     * @api {POST} good 商品
+     * @apiSampleRequest good
      * @apiPermission 无
      * @apiName home
-     * @apiGroup D-home
+     * @apiGroup E-Good
      * @apiVersion 1.0.0
-     * @apiDescription   api   首页接口
+     * @apiDescription   api   商品接口
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
      *          "status":"200",
      *          "msg":"获取成功",
      *          "data":[
-     *              "banners":[
-     *                  {
-     *                      "id":"id",
-     *                      "img_url":"图片url",
-     *                  }
+     *              "good":[
+     *                  "id":"id",
+     *                  "title":"商品标题",
+     *                  "price":"商品价格",
+     *                  "sales_volume":"销量",
+     *                  "describe":"描述",
+     *                  "good_imgs":[
+     *                      {
+     *                          "id":"商品图片id",
+     *                          "img_url":"图片链接",
+     *                      }
+     *                  ],
      *              ],
-     *              "home":{
-     *                  "id":"id"
-     *                  "title":"标题",
-     *                  "content":"内容"
-     *              }
      *          ]
      *     }
      *
@@ -60,8 +60,7 @@ class HomeController extends ApiBaseController
      */
     public function index()
     {
-        $home = new HomeResource(Home::where('status',HomeEnum::NORMAL)->first());
-        $banners = BannerResource::collection(Banner::where('status',BannerEnum::NORMAL)->get());
-        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('home','banners'));
+        $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->with('goodImgs')->first());
+        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('good'));
     }
 }

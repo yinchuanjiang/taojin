@@ -18,7 +18,8 @@ class CreateGoodsTable extends Migration
             $table->string('title')->comment('商品标题');
             $table->decimal('price',10,2)->comment('价格');
             $table->integer('sales_volume')->comment('销量')->default(0);
-            $table->string('describe')->commnet('描述');
+            $table->longText('describe')->nullable()->commnet('描述');
+            $table->tinyInteger('status')->default(\App\Models\Enum\GoodEnum::NORMAL)->comment('状态');
             $table->timestamps();
             $table->engine = 'myisam';
         });

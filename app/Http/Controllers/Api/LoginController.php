@@ -6,7 +6,6 @@ use App\Http\Core\Core;
 use App\Http\Proxy\TokenProxy;
 use App\Http\Requests\Api\LoginRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -72,7 +71,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $data = $request->all();
-        if ($data['wx_oauth']) {
+        if (isset($data['wx_oauth']) && $data['wx_oauth']) {
             $user = User::where('wx_oauth', $data['wx_oauth'])->first();
             if (!$user)
                 return show(Core::HTTP_REDIRECT_CODE, '需要去绑定手机号');

@@ -43,14 +43,15 @@ class CaptchaUtil
         }
         if($message)
             return $message;
-        $code = rand(100000,999999);
-        $aliSms = new AliSms();
-        $response = $aliSms->sendSms($mobile, env('ALIYUN_SMS_TEMPLATE_DOCTOR_LOGIN'), ['code'=> $code]);
-        if($response->Message == 'OK'){
+        $code = 888888;
+//        $code = rand(100000,999999);
+//        $aliSms = new AliSms();
+//        $response = $aliSms->sendSms($mobile, env('ALIYUN_SMS_TEMPLATE_DOCTOR_LOGIN'), ['code'=> $code]);
+//        if($response->Message == 'OK'){
             Captcha::create(['value'=>$code,'mobile'=>$mobile,'type'=>$type]);
             return true;
-        }
-        return $response->Message;
+//        }
+//        return $response->Message;
     }
     /**
      * 检查验证码

@@ -17,6 +17,7 @@ class CreateHomeTable extends Migration
             $table->increments('id');
             $table->string('title')->comment('标题');
             $table->longText('content')->comment('内容');
+            $table->tinyInteger('status')->comment('状态')->default(\App\Models\Enum\HomeEnum::NORMAL);
             $table->timestamps();
             $table->engine = 'myisam';
         });

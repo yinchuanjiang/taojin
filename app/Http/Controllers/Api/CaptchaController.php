@@ -49,7 +49,7 @@ class CaptchaController extends Controller
     public function send(CaptchaRequest $request)
     {
         $data = $request->all();
-        if($message = CaptchaUtil::send($data['mobile'],$data['type']) !== true){
+        if(($message = CaptchaUtil::send($data['mobile'],$data['type'])) !== true){
             return show(Core::HTTP_ERROR_CODE, $message);
         }
         return show(Core::HTTP_SUCCESS_CODE, '发送成功');
