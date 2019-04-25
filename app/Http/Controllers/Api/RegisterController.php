@@ -17,9 +17,7 @@ class RegisterController extends Controller
      * @apiSampleRequest register
      * @apiParam {String} mobile    手机号(必填)
      * @apiParam {String} code      验证码(必填)
-     * @apiParam {String} wx_oauth  微信登录唯一凭证(选填)
      * @apiParam {String} password  密码(必填)
-     * @apiParam {String} avatar    用户头像(wx_oauth存在时必填)
      * @apiPermission 无
      * @apiName register
      * @apiGroup A-Register
