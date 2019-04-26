@@ -52,7 +52,7 @@ class PayController extends ApiBaseController
     public function pay(PayRequest $request, Order $order)
     {
         $data = $request->all();
-        if(!$order->user->is($this->user))
+        if($order->user->id !== $this->user->id)
             return show(Core::HTTP_SUCCESS_CODE,'非法操作');
         switch ($data['type']) {
             case PayEnum::ALIAPY:
@@ -74,6 +74,7 @@ class PayController extends ApiBaseController
             'product_code' => 'QUICK_MSECURITY_PAY'
         ];
         $pay_url = Pay::alipay()->app($payData);
+        dd($pay_url);
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 }
