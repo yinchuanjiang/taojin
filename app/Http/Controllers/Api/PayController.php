@@ -6,6 +6,7 @@ use App\Http\Core\Core;
 use App\Http\Requests\Api\PayRequest;
 use App\Models\Enum\PayEnum;
 use App\Models\Order;
+use Illuminate\Http\Response;
 use Yansongda\LaravelPay\Facades\Pay;
 
 class PayController extends ApiBaseController
@@ -74,7 +75,7 @@ class PayController extends ApiBaseController
             'product_code' => 'QUICK_MSECURITY_PAY'
         ];
         $pay_url = Pay::alipay()->app($payData);
-        dd($pay_url->Content);
+        dd($pay_url->getContent());
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 }
