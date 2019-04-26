@@ -81,8 +81,7 @@ class PayController extends ApiBaseController
             'total_amount' => '0.01',
             'product_code' => 'QUICK_MSECURITY_PAY'
         ];
-        $pay_url = Pay::alipay()->app($payData);
-        dd($pay_url);
+        $pay_url = Pay::alipay()->app($payData)->getContent();
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 
@@ -101,7 +100,8 @@ class PayController extends ApiBaseController
             'total_fee' => 1, //测试
             'trade_type' => 'APP',
         ];
-        $pay_url = Pay::wechat()->app($payData)->getContent();
+        $pay_url = Pay::wechat()->app($payData);
+        dd($pay_url);
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 
