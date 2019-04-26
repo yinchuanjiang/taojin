@@ -10,7 +10,7 @@ use App\Models\Address;
 class AddressController extends ApiBaseController
 {
     /**
-     * @api {POST} address 地址
+     * @api {POST} address 地址列表
      * @apiSampleRequest address
      * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
@@ -65,7 +65,7 @@ class AddressController extends ApiBaseController
     
     //新增加地址
     /**
-     * @api {POST} address/store 注册
+     * @api {POST} address/store 增加地址
      * @apiSampleRequest address/store
      * @apiParam {String} to_name     收件人(必填)
      * @apiParam {String} mobile      收件人手机号(必填)
@@ -77,9 +77,9 @@ class AddressController extends ApiBaseController
      * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName address/store
-     * @apiGroup E-Address
+     * @apiGroup F-Address
      * @apiVersion 1.0.0
-     * @apiDescription   api   注册接口
+     * @apiDescription   api   增加地址接口
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -116,7 +116,7 @@ class AddressController extends ApiBaseController
 
     //修改地址
     /**
-     * @api {PUT} address/update/:id 注册
+     * @api {POST} address/update/:id 修改地址
      * @apiSampleRequest address/update/:id
      * @apiParam {String} to_name     收件人(必填)
      * @apiParam {String} mobile      收件人手机号(必填)
@@ -127,9 +127,9 @@ class AddressController extends ApiBaseController
      * @apiParam {String} postcode    邮政编码(选填)
      * @apiPermission 无
      * @apiName address/update
-     * @apiGroup E-Address
+     * @apiGroup F-Address
      * @apiVersion 1.0.0
-     * @apiDescription   api   注册接口
+     * @apiDescription   api   修改地址接口
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
