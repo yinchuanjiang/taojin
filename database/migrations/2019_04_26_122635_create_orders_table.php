@@ -17,9 +17,11 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('good_id');
+            $table->string('sn',20)->comment('订单编号');
             $table->integer('quantity')->comment('数量');
             $table->decimal('total',10,2)->comment('总价格');
-            $table->tinyInteger('status')->comment('状态');
+            $table->tinyInteger('status')->default(\App\Models\Enum\OrderEnum::PAYING)->comment('状态');
+            $table->string('address')->comment('收货地址');
             $table->timestamps();
         });
     }

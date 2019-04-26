@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Api;
 
-use App\Models\GoodImg;
+use App\Models\Enum\OrderEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GoodResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,11 @@ class GoodResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'price' => $this->price,
-            'sales_volume' => $this->sales_volume,
-            'describe' => $this->describe,
-            'stock' => $this->stock,
-            'good_imgs' => GoodImgResource::collection($this->goodImgs),
+            'good' => new GoodResource($this->good),
+            'sn' => $this->sn,
+            'quantity' => $this->quantity,
+            'total' => $this->total,
+            'status' => OrderEnum::getStatusName($this->status),
         ];
     }
 }

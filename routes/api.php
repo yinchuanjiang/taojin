@@ -35,5 +35,15 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/home','HomeController@index')->name('home.index');
         //商品
         Route::post('/good','GoodController@index')->name('good.index');
+        //地址数据
+        Route::post('/address','AddressController@index')->name('address.index');
+        //添加地址
+        Route::post('/address/store','AddressController@store')->name('address.store');
+        //编辑地址
+        Route::post('/address/update/{address}','AddressController@update')->name('address.update');
+        //订单列表
+        Route::post('/order','OrderController@index')->name('order.index');
+        //下单
+        Route::post('/order/store','OrderController@store')->name('order.store');
     });
 });

@@ -13,6 +13,7 @@ class GoodController extends Controller
     /**
      * @api {POST} good 商品
      * @apiSampleRequest good
+     * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName home
      * @apiGroup E-Good
@@ -30,6 +31,7 @@ class GoodController extends Controller
      *                  "price":"商品价格",
      *                  "sales_volume":"销量",
      *                  "describe":"描述",
+     *                  "stock":"库存",
      *                  "good_imgs":[
      *                      {
      *                          "id":"商品图片id",

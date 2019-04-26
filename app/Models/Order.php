@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Enum\OrderEnum;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
+{
+    protected $guarded = [];
+
+    //关联
+    public function good()
+    {
+        return $this->belongsTo(Good::class);
+    }
+
+    //搜索
+    public function scopeSearch(Builder $query)
+    {
+        $status = request('status');
+        if(in_array($status,[OrderEnum::CANCEL,OrderEnum::PAYED,OrderEnum::POSTED,OrderEnum::FINISH])){
+            $query->where('status',$status);
+        }
+        return $query;
+    }
+}

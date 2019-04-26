@@ -15,6 +15,7 @@ class HomeController extends ApiBaseController
     /**
      * @api {POST} home 首页
      * @apiSampleRequest home
+     * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName home
      * @apiGroup D-home

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable, HasApiTokens;
 
     protected $guarded = [];
 
@@ -37,5 +37,16 @@ class User extends Authenticatable
         return false;
          **/
         return true;
+    }
+
+    //关联 地址
+    public function address()
+    {
+        return $this->hasMany(Address::class);
+    }
+    //关联 订单
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

@@ -17,8 +17,8 @@ class RegisterController extends Controller
      * @apiSampleRequest register
      * @apiParam {String} mobile      手机号(必填)
      * @apiParam {String} code        验证码(必填)
-     * @apiParam {String} password    密码(必填) visitor_id
-     * @apiParam {String} visitor_id  邀请人id(必填)
+     * @apiParam {String} password    密码(必填)
+     * @apiParam {String} visitor_id  邀请人id(选填填)
      * @apiPermission 无
      * @apiName register
      * @apiGroup A-Register

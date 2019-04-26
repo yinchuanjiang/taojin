@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources\Api;
 
-use App\Models\GoodImg;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GoodResource extends JsonResource
+class AddressResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +16,13 @@ class GoodResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'price' => $this->price,
-            'sales_volume' => $this->sales_volume,
-            'describe' => $this->describe,
-            'stock' => $this->stock,
-            'good_imgs' => GoodImgResource::collection($this->goodImgs),
+            'to_name' => $this->to_name,
+            'mobile' => $this->mobile,
+            'province' => $this->province,
+            'city' => $this->city,
+            'area' => $this->area,
+            'detail' => $this->detail,
+            'postcode' =>$this->postcode
         ];
     }
 }
