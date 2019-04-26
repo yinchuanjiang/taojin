@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'quantity' => $this->quantity,
             'total' => $this->total,
             'status' => OrderEnum::getStatusName($this->status),
+            'address' => \GuzzleHttp\json_decode($this->address,true)
         ];
     }
 }
