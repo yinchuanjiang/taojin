@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Core\Core;
 use App\Http\Requests\Api\OrderRequest;
+use App\Http\Resources\Api\AddressResource;
 use App\Http\Resources\Api\OrderResource;
 use App\Models\Address;
 use App\Models\Good;
@@ -93,6 +94,14 @@ class OrderController extends ApiBaseController
     public function store(OrderRequest $request,Good $good,Address $address)
     {
         $data = $request->all();
-        dd($good);
+        if($data['quantity'] > $good->stock)
+            return show(Core::HTTP_ERROR_CODE,'库存不足');
+        $data['total'] = $good->price * $data['quantity'];
+        $data['user_id'] = $this->user->id;
+        $data['good_id'] = $good->id;
+        $data['sn'] = makeSn();
+        $data['address'] = json_encode(new AddressResource($address));
+        Order::create($data);
+        return show(Core::HTTP_SUCCESS_CODE,'下单成功');
     }
 }

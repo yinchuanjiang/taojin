@@ -18,3 +18,10 @@ if (! function_exists('show')) {
         return new \Illuminate\Http\JsonResponse(compact('status','msg','data'));
     }
 }
+
+//生成订单号
+if (! function_exists('makeSn')) {
+    function makeSn(){
+        return time().rand(1000000,9999999);
+    }
+}

@@ -45,5 +45,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/order','OrderController@index')->name('order.index');
         //下单
         Route::post('/order/store/{good}/{address}','OrderController@store')->name('order.store');
+        //支付
+        Route::post('/pay/{order}','PayController@pay')->name('pay.pay');
     });
 });

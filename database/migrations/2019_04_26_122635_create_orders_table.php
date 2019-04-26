@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('quantity')->comment('数量');
             $table->decimal('total',10,2)->comment('总价格');
             $table->tinyInteger('status')->default(\App\Models\Enum\OrderEnum::PAYING)->comment('状态');
-            $table->string('address')->comment('收货地址');
+            $table->json('address')->comment('收货地址');
             $table->timestamps();
         });
     }
