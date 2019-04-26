@@ -9,7 +9,6 @@ use App\Models\Enum\OrderEnum;
 use App\Models\Enum\PayEnum;
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Yansongda\LaravelPay\Facades\Pay;
 
@@ -70,24 +69,7 @@ class PayController extends ApiBaseController
     }
 
     //wxpay
-    public function wxpay($order)
-    {
-        $payData = [
-            'attach'           => '淘金',
-            'body'             => '淘金-订单支付',
-            'nonce_str'        => md5(rand(1, 100000000)),
-            'notify_url'       => route('pay.wx-notify'),
-            'out_trade_no'     => $order['sn'],
-            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
-            //'total_fee'        => intval($order['total'] * 100), //实际金额
-             'total_fee'        => 1, //测试
-            'trade_type'       => 'APP',
-        ];
-        $pay_url = Pay::wechat()->mp($payData)->getContent();
-        return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
-    }
 
-    //alipay
     public function alipay($order)
     {
         $payData = [
@@ -103,6 +85,24 @@ class PayController extends ApiBaseController
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 
+    //alipay
+
+    public function wxpay($order)
+    {
+        $payData = [
+            'attach' => '淘金',
+            'body' => '淘金-订单支付',
+            'nonce_str' => md5(rand(1, 100000000)),
+            'notify_url' => route('pay.wx-notify'),
+            'out_trade_no' => $order['sn'],
+            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
+            //'total_fee'        => intval($order['total'] * 100), //实际金额
+            'total_fee' => 1, //测试
+            'trade_type' => 'APP',
+        ];
+        $pay_url = Pay::wechat()->app($payData)->getContent();
+        return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
+    }
 
     public function notify()
     {
@@ -138,10 +138,6 @@ class PayController extends ApiBaseController
         return $alipay->success();// laravel 框架中请直接 `return $alipay->success()`
     }
 
-    public function wxNotify(){
-
-    }
-
     /**
      * @param User $buyer
      */
@@ -165,20 +161,25 @@ class PayController extends ApiBaseController
             return;
         $topInviter = $inviter->inviter;
         $allUnderless = $topInviter->underless;
-        if(count($allUnderless) < Core::SECOND_DISTRIBUTOR_PEOPLE)
+        if (count($allUnderless) < Core::SECOND_DISTRIBUTOR_PEOPLE)
             return;
         //记算下下级人数
         $underTeam = [];
-        foreach ($allUnderless as $allUnderles){
+        foreach ($allUnderless as $allUnderles) {
             /** @var User $allUnderles */
-            $underTeam[] = $allUnderles->underless()->count() % 2 == 0 ? 'ok':'no';
+            $underTeam[] = $allUnderles->underless()->count() % 2 == 0 ? 'ok' : 'no';
         }
         $result = array_count_values($underTeam);
-        if(!isset($result['ok']))
+        if (!isset($result['ok']))
             return;
-        if($result['ok'] % Core::SECOND_DISTRIBUTOR_PEOPLE != 0)
+        if ($result['ok'] % Core::SECOND_DISTRIBUTOR_PEOPLE != 0)
             return;
         $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
         $inviter->balanceDetails()->save($balanceDetail);
+    }
+
+    public function wxNotify()
+    {
+
     }
 }
