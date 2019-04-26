@@ -15,6 +15,11 @@ class Order extends Model
     {
         return $this->belongsTo(Good::class);
     }
+    //关联 用户
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     //搜索
     public function scopeSearch(Builder $query)

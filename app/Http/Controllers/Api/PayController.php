@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Core\Core;
 use App\Http\Requests\Api\PayRequest;
 use App\Models\Enum\PayEnum;
 use App\Models\Order;
@@ -48,26 +49,31 @@ class PayController extends ApiBaseController
      *          "data":[]
      *      }
      */
-    public function pay(PayRequest $request,Order $order)
+    public function pay(PayRequest $request, Order $order)
     {
         $data = $request->all();
-        switch ($data['type']){
+        if(!$order->user->is($this->user))
+            return show(Core::HTTP_SUCCESS_CODE,'非法操作');
+        switch ($data['type']) {
             case PayEnum::ALIAPY:
                 return $this->alipay($order);
                 break;
         }
     }
+
     //alipay
     public function alipay($order)
     {
         $payData = [
-            'body'            => '淘金-订单支付',
-            'subject'         => '淘金',
-            'out_trade_no'    => $order['sn'],
-            //'total_amount'    => $order['total'],
-            'total_amount'    => '0.01',
-            'product_code'    => 'QUICK_MSECURITY_PAY'
+            'body' => '淘金-订单支付',
+            'subject' => '淘金',
+            'out_trade_no' => $order['sn'],
+            //'notify_url' => 'http://yansongda.cn/notify.php',
+            //'return_url' => 'http://yansongda.cn/return.php',
+            'total_amount' => '0.01',
+            'product_code' => 'QUICK_MSECURITY_PAY'
         ];
-        return Pay::alipay()->app($payData);
+        $pay_url = Pay::alipay()->app($payData);
+        return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 }
