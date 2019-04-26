@@ -18,7 +18,7 @@ class RegisterController extends Controller
      * @apiParam {String} mobile      手机号(必填)
      * @apiParam {String} code        验证码(必填)
      * @apiParam {String} password    密码(必填)
-     * @apiParam {String} visitor_id  邀请人id(选填填)
+     * @apiParam {Number} invite_id   邀请人id(选填填)
      * @apiPermission 无
      * @apiName register
      * @apiGroup A-Register
@@ -52,7 +52,7 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all(['mobile','password','invite_id','code']);
         if (!($captcha = CaptchaUtil::check($data['code'], $data['mobile'], CaptchaEnum::REGISTER))) {
             return show(Core::HTTP_ERROR_CODE, '验证码错误或过期');
         }
