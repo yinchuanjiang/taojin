@@ -73,8 +73,8 @@ class PayController extends ApiBaseController
             'total_amount' => '0.01',
             'product_code' => 'QUICK_MSECURITY_PAY'
         ];
-        $pay_url = Pay::alipay()->app($payData)->content;
-        dd($pay_url);
+        $pay_url = Pay::alipay()->app($payData);
+        dd($pay_url->content);
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 }
