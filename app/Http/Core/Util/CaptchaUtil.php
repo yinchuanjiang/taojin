@@ -62,7 +62,7 @@ class CaptchaUtil
      */
     public static function check($code,$mobile,$type)
     {
-        $captha = Captcha::where(['type'=>$type,'value'=>$code,'mobile'=>$mobile,'is_used'=>Core::CAPTCHA_USED_FALSE])->where('created_at','>=',Carbon::now()->subMinute(Core::CAPTCHA_EXPIRE_TIME)->toDateTimeString())->first();
+        $captha = Captcha::where(['type'=>$type,'value'=>$code,'mobile'=>$mobile,'is_used'=>CaptchaEnum::CAPTCHA_USED_FALSE])->where('created_at','>=',Carbon::now()->subMinute(CaptchaEnum::CAPTCHA_EXPIRE_TIME)->toDateTimeString())->first();
         if($captha) {
             return $captha;
         }
