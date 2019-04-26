@@ -125,6 +125,7 @@ class AddressController extends ApiBaseController
      * @apiParam {String} area        区(选填)
      * @apiParam {String} detail      详细地址(选填)
      * @apiParam {String} postcode    邮政编码(选填)
+     * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName address/update
      * @apiGroup F-Address

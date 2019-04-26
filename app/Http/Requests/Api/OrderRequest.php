@@ -28,9 +28,9 @@ class OrderRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'good_id' => ['required','numeric'],
+                    //'good_id' => ['required','numeric'],
                     'quantity' => ['required','numeric']    ,
-                    'address' => ['required','numeric'],
+                    //'address' => ['required','numeric'],
                 ];
             }
             case 'PUT':
@@ -45,12 +45,12 @@ class OrderRequest extends FormRequest
     public function messages()
     {
         return [
-            'good_id.required' => '商品id不能为空',
-            'good_id.numeric' => '商品id必须是数字',
+            //'good_id.required' => '商品id不能为空',
+            //'good_id.numeric' => '商品id必须是数字',
             'quantity.required'=>'数量必须填写',
             'quantity.numeric' => '数量必须是数字',
-            'address.required' => '地址不能为空',
-            'address.numeric' => '地址必须是数字',
+            //'address.required' => '地址不能为空',
+            //'address.numeric' => '地址必须是数字',
         ];
     }
 }
