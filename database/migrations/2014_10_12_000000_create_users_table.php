@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable()->comment('头像');
             $table->string('wx_oauth')->unique()->nullable()->comment('微信登录凭证');
             $table->unsignedInteger('visitor_id')->nullable()->comment('邀请人id');
+            $table->decimal('balance',10,2)->default(0.00)->comment('余额');
             $table->timestamps();
             $table->engine = 'myisam';
         });

@@ -49,4 +49,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    //关联推荐者
+    public function inviter()
+    {
+        return $this->belongsTo(User::class,'invite_id','id');
+    }
+    //关联下级
+    public function underless()
+    {
+        return $this->hasMany(User::class,'invite_id','id');
+    }
+
+    //关联金额记录
+    public function balanceDetails()
+    {
+        return $this->hasMany(BalanceDetail::class);
+    }
 }
