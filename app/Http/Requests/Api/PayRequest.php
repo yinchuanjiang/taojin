@@ -29,7 +29,7 @@ class PayRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'type' => ['required','in:'.implode(PayEnum::ALIAPY,PayEnum::WECHAT_APP_PAY)],
+                    'type' => ['required','in:'.implode(',',[PayEnum::ALIAPY,PayEnum::WECHAT_APP_PAY])],
                 ];
             }
             case 'PUT':
