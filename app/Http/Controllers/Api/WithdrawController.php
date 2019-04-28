@@ -52,6 +52,8 @@ class WithdrawController extends ApiBaseController
     public function withdraw(WithdrawRequest $request)
     {
         $data = $request->all(['cash','account','real_name','bank_of_deposit']);
+        if($this->user->balance < $data['cash'])
+            return show(Core::HTTP_ERROR_CODE,'余额不足');
         $this->user->withdraws()->save(new Withdraw($data));
         return show(Core::HTTP_SUCCESS_CODE,'申请成功');
     }
