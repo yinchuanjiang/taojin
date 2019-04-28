@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
                 return [
                     'mobile' => ['required_without:wx_ouath','max:11','min:11','exists:users'],
                     'password' => ['required_without:wx_ouath','max:20','min:6'],
-                    'wx_ouath' => ['nullable']
+                    'wx_ouath' => ['required_without:mobile,password']
                 ];
             }
             case 'PUT':
@@ -45,13 +45,14 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'mobile.required_without'=>'手机号必须填写',
+            'mobile.required_without'=>'wx_ouath不存在时手机号必须填写',
             'mobile.max' => '手机号长度为11个字符',
             'mobile.min' => '手机号长度为11个字符',
             'mobile.exists' => '手机号或密码错误',
-            'password.required_without' => '密码不能为空',
+            'password.required_without' => 'wx_ouath不存在时密码不能为空',
             'password.max' => '密码长度不能超过20个字符',
-            'password.min' => '密码长度不能小于6个字符'
+            'password.min' => '密码长度不能小于6个字符',
+            'wx_ouath.required_without' => '手机号和密码不存在时必须微信认证'
         ];
     }
 }
