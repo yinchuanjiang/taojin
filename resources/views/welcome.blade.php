@@ -93,3 +93,15 @@
         </div>
     </body>
 </html>
+<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+<script>
+    axios.post('https://echoyes.com/api/v1/login',{mobile:"18956003839",password:"11111"}).then(res => {
+
+    }).catch(error => {
+        $.each(error.response.data.errors, function(idx, obj) {
+            console.log(obj)
+            return false;
+        });
+    })
+</script>

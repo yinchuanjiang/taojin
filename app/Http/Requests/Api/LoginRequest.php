@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
             {
                 return [
                     'mobile' => ['nullable','required_without:wx_oauth','max:11','min:11','exists:users'],
-                    'password' => ['nullable','required_without:wx_oauth','max:20','min:6'],
+                    'password' => ['nullable','required_without:wx_oauth'],
                     'wx_oauth' => ['required_without:mobile,password']
                 ];
             }
@@ -50,8 +50,6 @@ class LoginRequest extends FormRequest
             'mobile.min' => '手机号长度为11个字符',
             'mobile.exists' => '该手机号没有注册',
             'password.required_without' => 'wx_oauth不存在时密码不能为空',
-            'password.max' => '密码长度不能超过20个字符',
-            'password.min' => '密码长度不能小于6个字符',
             'wx_oauth.required_without' => '手机号和密码不存在时必须微信认证'
         ];
     }

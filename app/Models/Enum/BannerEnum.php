@@ -7,9 +7,12 @@ namespace App\Models\Enum;
  * Time: 下午7:31
  */
 class BannerEnum{
+    //banner图是否启用
+    const BANNER_STATUS_TRUE = true;
+    const BANNER_STATUS_FALSE = false;
     // 状态类别
-    const INVALID = -1; //禁用
-    const NORMAL = 0; //启用
+    const INVALID = 0; //禁用
+    const NORMAL = 1; //启用
 
     public static function getStatusName($status){
         switch ($status){
