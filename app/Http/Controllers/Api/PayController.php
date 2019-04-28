@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Core\Core;
 use App\Http\Requests\Api\PayRequest;
 use App\Models\BalanceDetail;
+use App\Models\Enum\BalanceDetailEnum;
 use App\Models\Enum\OrderEnum;
 use App\Models\Enum\PayEnum;
 use App\Models\Order;
@@ -104,9 +105,13 @@ class PayController extends ApiBaseController
         return show(Core::HTTP_SUCCESS_CODE, '生成支付链接成功', compact('pay_url'));
     }
 
+    /**
+     * 支付宝异步通知
+     * @return mixed
+     */
     public function notify()
     {
-        $alipay = Pay::alipay($this->config);
+        $alipay = Pay::alipay();
 
         try {
             $data = $alipay->verify(); // 是的，验签就这么简单！
@@ -139,6 +144,23 @@ class PayController extends ApiBaseController
     }
 
     /**
+     * 微信异步通知
+     * @return mixed
+     */
+    public function wxNotify()
+    {
+        $pay = Pay::wechat($this->config);
+
+        try{
+            $data = $pay->verify(); // 是的，验签就这么简单！
+
+            Log::debug('Wechat notify', $data->all());
+        } catch (\Exception $e) {
+            // $e->getMessage();
+        }
+        return $pay->success();// laravel 框架中请直接 `return $alipay->success()`
+    }
+    /**
      * @param User $buyer
      */
     public function distributor(User $buyer)
@@ -153,7 +175,7 @@ class PayController extends ApiBaseController
         $underless = $inviter->underless()->count();
         //一级分销 推荐2人推荐人加 500
         if ($underless % Core::FIRST_DISTRIBUTOR_PEOPLE == 0) {
-            $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
+            $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::FIRST_REWARD_TYPE, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
             $inviter->balanceDetails()->save($balanceDetail);
         }
         //二级分销
@@ -174,12 +196,7 @@ class PayController extends ApiBaseController
             return;
         if ($result['ok'] % Core::SECOND_DISTRIBUTOR_PEOPLE != 0)
             return;
-        $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
+        $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::SECONE_REWARD_TYPE, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
         $inviter->balanceDetails()->save($balanceDetail);
-    }
-
-    public function wxNotify()
-    {
-
     }
 }

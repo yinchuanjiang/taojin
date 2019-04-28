@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Core\Core;
 use App\Http\Proxy\TokenProxy;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -45,7 +46,8 @@ class LoginController extends Controller
      *              "user":{
      *                  "id":"id",
      *                  "mobile":"手机号",
-     *                  "avatar":"头像"
+     *                  "avatar":"头像",
+     *                  "balance":"余额"
      *              },
      *          }
      *     }
@@ -93,7 +95,7 @@ class LoginController extends Controller
                 'token' => $token['token'],
                 'refresh_token' => $token['refresh_token'],
                 //'expires_in' => $token['expires_in'],
-                'user' => $user
+                'user' => new UserResource($user)
             ]
         );
     }

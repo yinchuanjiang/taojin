@@ -6,6 +6,7 @@ use App\Http\Core\Core;
 use App\Http\Core\Util\CaptchaUtil;
 use App\Http\Proxy\TokenProxy;
 use App\Http\Requests\Api\BindRequest;
+use App\Http\Resources\Api\UserResource;
 use App\Models\Enum\CaptchaEnum;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class BindController extends Controller
      *                  "id":"id",
      *                  "mobile":"手机号",
      *                  "avatar":"头像"
+     *                  "balance":"余额"
      *              },
      *          }
      *     }
@@ -99,7 +101,7 @@ class BindController extends Controller
                 'token' => $token['token'],
                 'refresh_token' => $token['refresh_token'],
                 //'expires_in' => $token['expires_in'],
-                'user' => $user
+                'user' => new UserResource($user)
             ]
         );
     }

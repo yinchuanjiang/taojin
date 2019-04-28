@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class WithdrawRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -28,9 +28,10 @@ class LoginRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'mobile' => ['required_without:wx_ouath','max:11','min:11','exists:users'],
-                    'password' => ['required_without:wx_ouath','max:20','min:6'],
-                    'wx_ouath' => ['nullable']
+                    'cash' => ['required','numeric'],
+                    'account' => ['required','string'],
+                    'real_name' => ['required'],
+                    'bank_of_deposit' => ['nullable']
                 ];
             }
             case 'PUT':
@@ -45,13 +46,11 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'mobile.required'=>'手机号必须填写',
-            'mobile.max' => '手机号长度为11个字符',
-            'mobile.min' => '手机号长度为11个字符',
-            'mobile.exists' => '手机号或密码错误',
-            'password.required' => '密码不能为空',
-            'password.max' => '密码长度不能超过20个字符',
-            'password.min' => '密码长度不能小于6个字符'
+            'cash.required'=>'金额必须填写',
+            'cash.numeric' => '金额必须是数字',
+            'account.required'=>'收款账户不能为空',
+            'account.account' => '收款账户必须是字符串',
+            'real_name.required' => '姓名不能为空',
         ];
     }
 }

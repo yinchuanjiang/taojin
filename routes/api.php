@@ -50,5 +50,9 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         //支付异步通知
         Route::post('/pay/notify','PayController@notify')->name('pay.notify');
         Route::post('/pay/wx-notify','PayController@wxNotify')->name('pay.wx-notify');
+        //资金记录
+        Route::post('/balance/detail','BalanceDetailController@index')->name('balance.index');
+        //申请提现
+        Route::post('/withdraw','WithdrawController@withdraw')->name('withdraw.withdraw');
     });
 });

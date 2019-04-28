@@ -28,7 +28,17 @@ class OrderController extends ApiBaseController
      *     {
      *          "status":"200",
      *          "msg":"获取成功",
-     *          "data":[]
+     *          "data":{
+     *              "orders":[
+     *                  {
+     *                      "id":"ID",
+     *                      "sn":"订单号",
+     *                      "quantity":"购买数量",
+     *                      "total":"总金额",
+     *                      "status":"订单状态",
+     *                  }
+     *              ]
+     *          }
      *     }
      *
      *
