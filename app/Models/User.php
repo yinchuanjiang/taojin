@@ -65,4 +65,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(BalanceDetail::class);
     }
+
+    //我的提现
+    public function withdraws()
+    {
+        return $this->hasMany(Withdraw::class);
+    }
 }

@@ -52,7 +52,7 @@ class WithdrawController extends ApiBaseController
     public function withdraw(WithdrawRequest $request)
     {
         $data = $request->all(['cash','account','real_name','bank_of_deposit']);
-        Withdraw::create($data);
+        $this->user->withdraws()->save(new Withdraw($data));
         return show(Core::HTTP_SUCCESS_CODE,'申请成功');
     }
 }
