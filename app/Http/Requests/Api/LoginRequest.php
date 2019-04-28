@@ -48,7 +48,7 @@ class LoginRequest extends FormRequest
             'mobile.required_without'=>'wx_oauth不存在时手机号必须填写',
             'mobile.max' => '手机号长度为11个字符',
             'mobile.min' => '手机号长度为11个字符',
-            'mobile.exists' => '手机号或密码错误',
+            'mobile.exists' => '该手机号没有注册',
             'password.required_without' => 'wx_oauth不存在时密码不能为空',
             'password.max' => '密码长度不能超过20个字符',
             'password.min' => '密码长度不能小于6个字符',
