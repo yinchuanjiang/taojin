@@ -28,8 +28,8 @@ class LoginRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'mobile' => ['required_without:wx_oauth','max:11','min:11','exists:users'],
-                    'password' => ['required_without:wx_oauth','max:20','min:6'],
+                    'mobile' => ['nullable','required_without:wx_oauth','max:11','min:11','exists:users'],
+                    'password' => ['nullable','required_without:wx_oauth','max:20','min:6'],
                     'wx_oauth' => ['required_without:mobile,password']
                 ];
             }
