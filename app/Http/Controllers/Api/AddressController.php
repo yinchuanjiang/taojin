@@ -108,7 +108,7 @@ class AddressController extends ApiBaseController
     {
         $data = $request->all(['to_name','mobile','address','detail','postcode']);
         $address = new Address($data);
-        $this->user->address->save($address);
+        $this->user->address()->save($address);
         return show(Core::HTTP_SUCCESS_CODE,'添加成功');
     }
 
