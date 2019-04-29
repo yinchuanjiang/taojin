@@ -107,6 +107,8 @@ class AddressController extends ApiBaseController
     public function store(AddressRequest $request)
     {
         $data = $request->all(['to_name','mobile','address','detail','postcode']);
+        if($this->user->address->count())
+            return show(Core::HTTP_ERROR_CODE,'已存在地址');
         $address = new Address($data);
         $this->user->address()->save($address);
         return show(Core::HTTP_SUCCESS_CODE,'添加成功');
