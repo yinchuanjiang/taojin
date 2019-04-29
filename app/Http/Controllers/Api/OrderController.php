@@ -80,7 +80,9 @@ class OrderController extends ApiBaseController
      *     {
      *          "status":"200",
      *          "msg":"下单成功",
-     *          "data":[]
+     *          "data":{
+     *              "order_id:":"订单id"
+     *          }
      *     }
      *
      *
