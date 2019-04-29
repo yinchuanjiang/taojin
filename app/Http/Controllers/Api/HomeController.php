@@ -62,6 +62,7 @@ class HomeController extends Controller
     public function index()
     {
         $home = new HomeResource(Home::where('status',HomeEnum::NORMAL)->first());
+
         $banners = BannerResource::collection(Banner::where('status',BannerEnum::NORMAL)->get());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('home','banners'));
     }
