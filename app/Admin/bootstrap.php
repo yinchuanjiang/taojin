@@ -17,5 +17,8 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
-
-Encore\Admin\Form::forget(['map', 'editor']);
+use Encore\Admin\Form;
+//use App\Admin\Extensions\Form\UEditor;
+use App\Admin\Extensions\WangEditor;
+Form::forget(['map']);
+Form::extend('editor', WangEditor::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Core\Core;
 use App\Http\Resources\Api\BannerResource;
 use App\Http\Resources\Api\HomeResource;
@@ -10,12 +11,11 @@ use App\Models\Enum\BannerEnum;
 use App\Models\Enum\HomeEnum;
 use App\Models\Home;
 
-class HomeController extends ApiBaseController
+class HomeController extends Controller
 {
     /**
      * @api {POST} home 首页
      * @apiSampleRequest home
-     * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName home
      * @apiGroup D-home
