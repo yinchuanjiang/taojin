@@ -10,7 +10,7 @@ use App\Models\Enum\GoodEnum;
 use App\Models\Good;
 use App\Http\Controllers\Controller;
 
-class GoodController extends Controller
+class GoodController extends ApiBaseController
 {
     /**
      * @api {POST} good 商品
