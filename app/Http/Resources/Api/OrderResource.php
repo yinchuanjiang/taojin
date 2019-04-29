@@ -17,7 +17,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'good' => new GoodResource($this->good),
+            'good' => new GoodOneResource($this->good),
             'sn' => $this->sn,
             'quantity' => $this->quantity,
             'total' => $this->total,
