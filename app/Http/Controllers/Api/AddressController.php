@@ -29,9 +29,7 @@ class AddressController extends ApiBaseController
      *                      "id":"id",
      *                      "to_name":"收件人",
      *                      "mobile":"手机号",
-     *                      "province":"省",
-     *                      "city":"市",
-     *                      "area":"区",
+     *                      "address":"地址",
      *                      "detail":"详细地址",
      *                      "postcode":"邮政编码"
      *                  }

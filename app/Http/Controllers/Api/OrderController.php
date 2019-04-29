@@ -117,8 +117,8 @@ class OrderController extends ApiBaseController
 
     //订单详情
     /**
-     * @api {POST} show/:id 订单详情
-     * @apiSampleRequest show/:id
+     * @api {POST} order/show/:id 订单详情
+     * @apiSampleRequest order/show/:id
      * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName show
@@ -138,6 +138,14 @@ class OrderController extends ApiBaseController
      *                      "quantity":"购买数量",
      *                      "total":"总金额",
      *                      "status":"订单状态",
+     *                      "address":{
+     *                          "id":"ID",
+     *                          "to_name":"收件人",
+     *                          "mobile":"手机号",
+     *                          "address":"地址",
+     *                          "detail":"详细地址",
+     *                          "postcode":"邮政编码"
+     *                      }
      *                      "good":[
      *                          "id":"商品id",
      *                          "title":"商品标题",
@@ -150,7 +158,7 @@ class OrderController extends ApiBaseController
      *                               "id":"商品图片id",
      *                               "img_url":"图片链接",
      *                            }
-     *                            ],
+     *                          ],
      *                      ]
      *                  }
      *          }
