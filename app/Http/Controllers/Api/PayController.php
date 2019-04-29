@@ -19,7 +19,7 @@ class PayController extends ApiBaseController
     /**
      * @api {POST} pay/:order_id 支付
      * @apiSampleRequest pay/:order_id
-     * @apiParam {String} type  支付方式(必填【'alipay','wechat-app-pay'】)
+     * @apiParam {String} type  支付方式(必填【'alipay','wxpay'】)
      * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName pay

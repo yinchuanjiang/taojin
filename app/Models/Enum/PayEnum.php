@@ -9,7 +9,7 @@ namespace App\Models\Enum;
 class PayEnum{
     // 支付类别
     const ALIAPY = 'alipay'; //阿里支付
-    const WECHAT_APP_PAY = 'wechat-app-pay'; //微信支付
+    const WECHAT_APP_PAY = 'wxpay'; //微信支付
 
     public static function getStatusName($status){
         switch ($status){

@@ -20,7 +20,7 @@ class UEditor extends Field
     protected static $js = [
         'laravel-u-editor/ueditor.config.js',
         'laravel-u-editor/ueditor.all.min.js',
-        //'laravel-u-editor/lang/zh-cn/zh-cn.js'
+        'laravel-u-editor/lang/zh-cn/zh-cn.js'
     ];
 
     public function render()
@@ -31,9 +31,7 @@ class UEditor extends Field
         // 默认id是ueditor
         var ue = UE.getEditor('ueditor', {
             // 自定义工具栏
-            toolbars: [
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'insertimage', 'source', 'fullscreen']
-            ],
+       
             elementPathEnabled: false,
             enableContextMenu: false,
             autoClearEmptyNode: true,
