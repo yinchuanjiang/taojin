@@ -20,7 +20,7 @@ class UEditor extends Field
     protected static $js = [
         'laravel-u-editor/ueditor.config.js',
         'laravel-u-editor/ueditor.all.min.js',
-        'laravel-u-editor/lang/zh-cn/zh-cn.js'
+        //'laravel-u-editor/lang/zh-cn/zh-cn.js'
     ];
 
     public function render()

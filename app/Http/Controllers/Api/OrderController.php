@@ -111,8 +111,8 @@ class OrderController extends ApiBaseController
         $data['good_id'] = $good->id;
         $data['sn'] = makeSn();
         $data['address'] = json_encode(new AddressResource($address));
-        Order::create($data);
-        return show(Core::HTTP_SUCCESS_CODE,'下单成功');
+        $order = Order::create($data);
+        return show(Core::HTTP_SUCCESS_CODE,'下单成功',['order_id' => $order->id]);
     }
 
     //订单详情
