@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         App\Providers\Socialite\WechatServiceProvider::class,
+        Stevenyangecho\UEditor\UEditorServiceProvider::class
 
     ],
 

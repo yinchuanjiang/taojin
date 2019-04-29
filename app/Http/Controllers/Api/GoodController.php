@@ -27,7 +27,7 @@ class GoodController extends ApiBaseController
      *          "status":"200",
      *          "msg":"获取成功",
      *          "data":[
-     *              "good":[
+     *              "good":{
      *                  "id":"id",
      *                  "title":"商品标题",
      *                  "price":"商品价格",
@@ -41,7 +41,7 @@ class GoodController extends ApiBaseController
      *                      }
      *                  ],
      *              ],
-     *          ]
+     *          }
      *     }
      *
      *
