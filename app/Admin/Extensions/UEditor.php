@@ -19,23 +19,23 @@ class UEditor extends Field
 
     public function render()
     {
-        $name = $this->formatName($this->column);
+        $cs=csrf_token();
 
         $this->script = <<<EOT
-    //解决第二次进入加载不出来的问题
-    UE.delEditor("container");
-    var ue = UE.getEditor('container',{
-    elementPathEnabled: false,
-    enableContextMenu: false,
-    autoClearEmptyNode: true,
-    wordCount: false,
-    imagePopup: false,
-     autotypeset: {indent: true, imageBlockLine: 'center'}
-    });
-    ue.ready(function() {
-      ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');
 
-    });
+        //解决第二次进入加载不出来的问题
+
+        UE.delEditor("ueditor");
+
+        // 默认id是ueditor
+
+        var ue = UE.getEditor('ueditor'); 
+
+        ue.ready(function () {
+
+            ue.execCommand('serverparam', '_token', '$cs');
+
+        });
 
 EOT;
         return parent::render();

@@ -69,9 +69,7 @@ class AddressController extends ApiBaseController
      * @apiSampleRequest address/store
      * @apiParam {String} to_name     收件人(必填)
      * @apiParam {String} mobile      收件人手机号(必填)
-     * @apiParam {String} province    省id(必填)
-     * @apiParam {String} city        市(必填)
-     * @apiParam {String} area        区(选填)
+     * @apiParam {String} address     省+市+区(必填)
      * @apiParam {String} detail      详细地址(选填)
      * @apiParam {String} postcode    邮政编码(选填)
      * @apiHeader {String} authorization Authorization value.
@@ -108,7 +106,7 @@ class AddressController extends ApiBaseController
      */
     public function store(AddressRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all(['to_name','mobile','address','detail','postcode']);
         $address = new Address($data);
         $this->user->address->save($address);
         return show(Core::HTTP_SUCCESS_CODE,'添加成功');
@@ -120,12 +118,10 @@ class AddressController extends ApiBaseController
      * @apiSampleRequest address/update/:id
      * @apiParam {String} to_name     收件人(必填)
      * @apiParam {String} mobile      收件人手机号(必填)
-     * @apiParam {String} province    省id(必填)
-     * @apiParam {String} city        市(必填)
-     * @apiParam {String} area        区(选填)
+     * @apiParam {String} address     省+市+区(必填)
      * @apiParam {String} detail      详细地址(选填)
      * @apiParam {String} postcode    邮政编码(选填)
-     * @apiHeader {String} authorization Authorization value.
+     * @apiHeader {String} Authorization Authorization value.
      * @apiPermission 无
      * @apiName address/update
      * @apiGroup F-Address
@@ -159,7 +155,7 @@ class AddressController extends ApiBaseController
      */
     public function update(AddressRequest $request,Address $address)
     {
-        $data = $request->all();
+        $data = $request->all(['to_name','mobile','address','detail','postcode']);
         if($this->user->id !== $address->user_id)
             return show(Core::HTTP_ERROR_CODE,'非法操作');
         $address->update($data);
