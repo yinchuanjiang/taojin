@@ -65,7 +65,9 @@ class GoodController extends ApiBaseController
     public function index()
     {
         $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->with('goodImgs')->first());
-        $address = new AddressResource(Address::where('user_id',$this->user->id)->first());
+        $address = [];
+        if($this->user->address->count())
+            $address = new AddressResource(Address::where('user_id',$this->user->id)->first());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('good','address'));
     }
 }
