@@ -35,7 +35,7 @@ class HomeController extends Controller
      *              ],
      *              "home":{
      *                  "id":"id"
-     *                  "title":"标题",
+     *                  "content":"内容",
      *              }
      *          ]
      *     }
