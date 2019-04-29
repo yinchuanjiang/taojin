@@ -19,9 +19,6 @@ class GoodOneResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'price' => $this->price,
-            'sales_volume' => $this->sales_volume,
-            'describe' => $this->describe,
-            'stock' => $this->stock,
             'good_imgs' =>new GoodImgResource($this->goodImgs()->first()),
         ];
     }

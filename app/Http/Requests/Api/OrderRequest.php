@@ -29,7 +29,7 @@ class OrderRequest extends FormRequest
             {
                 return [
                     //'good_id' => ['required','numeric'],
-                    'quantity' => ['required','numeric']    ,
+                    'quantity' => ['required','numeric','min:1']    ,
                     //'address' => ['required','numeric'],
                 ];
             }
@@ -49,6 +49,7 @@ class OrderRequest extends FormRequest
             //'good_id.numeric' => '商品id必须是数字',
             'quantity.required'=>'数量必须填写',
             'quantity.numeric' => '数量必须是数字',
+            'quantity.min' => '数量最小为1',
             //'address.required' => '地址不能为空',
             //'address.numeric' => '地址必须是数字',
         ];

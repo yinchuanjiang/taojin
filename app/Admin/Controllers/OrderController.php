@@ -2,8 +2,11 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Enum\OrderEnum;
+use App\Models\Good;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -80,17 +83,33 @@ class OrderController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Order);
-        $grid->model()->order('created_at','desc');
-        $grid->id('Id');
-        $grid->user_id('User id');
-        $grid->good_id('Good id');
-        $grid->sn('Sn');
-        $grid->quantity('Quantity');
-        $grid->total('Total');
-        $grid->status('Status');
-        $grid->address('Address');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->model()->orderBy('created_at','desc');
+        $grid->user_id('用户手机号')->display(function ($userId){
+            $name = User::find($userId)->mobile;
+            return "<span class='label label-info'>{$name}</span>";
+        });
+        $grid->good_id('商品')->display(function ($goodId){
+            $name = Good::find($goodId)->title;
+            return "<span class='label label-info'>{$name}</span>";
+        });
+        $grid->sn('订单号');
+        $grid->quantity('数量');
+        $grid->total('总金额');
+        $grid->status('状态')->display(function ($status){
+            if($status == OrderEnum::CANCEL) {
+                $color = 'label-danfer';
+            }elseif ($status == OrderEnum::FINISH){
+                $color = 'label-success';
+            }else{
+                $color = 'label-info';
+            }
+            return "<span class='label {$color}'>".OrderEnum::getStatusName($status)."</span>";
+        });
+        $grid->address('地址')->display(function ($address){
+            $address = \GuzzleHttp\json_decode($address,true);
+            return '收件人:'.$address['to_name'].' 联系方式: '.$address['mobile'].' 地址：'.$address['address'].$address['detail'];
+        });
+        $grid->created_at('创建时间');
 
         return $grid;
     }
