@@ -29,12 +29,12 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/login','LoginController@login')->name('login.login');
     //绑定微信
     Route::post('/bind','BindController@bind')->name('bind.bind');
+    //首页
+    Route::post('/home','HomeController@index')->name('home.index');
+    //商品
+    Route::post('/good','GoodController@index')->name('good.index');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
-        //首页
-        Route::post('/home','HomeController@index')->name('home.index');
-        //商品
-        Route::post('/good','GoodController@index')->name('good.index');
         //地址数据
         Route::post('/address','AddressController@index')->name('address.index');
         //添加地址
