@@ -43,7 +43,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/address/update/{address}','AddressController@update')->name('address.update');
         //订单列表
         Route::post('/order','OrderController@index')->name('order.index');
-        Route::post('/order/show/{order}','OrderController@index')->name('order.show');
+        Route::post('/order/show/{order}','OrderController@show')->name('order.show');
         //下单
         Route::post('/order/store/{good}/{address}','OrderController@store')->name('order.store');
         //支付
