@@ -32,6 +32,7 @@ class BindRequest extends FormRequest
                     'code' => ['required','max:6','min:6'],
                     'avatar' => ['required'],
                     'wx_oauth' => ['required'],
+                    'password' => ['nullable','min:6','max:20']
                 ];
             }
             case 'PUT':
@@ -55,6 +56,8 @@ class BindRequest extends FormRequest
             'code.min' => '验证码长度为6个字符',
             'avatar.required' => '头像不能为空',
             'wx_oauth.required' => '微信授权标示不能为空',
+            'password.max' => '密码长度最短为6个字符',
+            'password.min' => '密码长度最长为20个字符',
         ];
     }
 }

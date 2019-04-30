@@ -6,6 +6,8 @@ use App\Http\Core\Core;
 use App\Http\Core\Util\CaptchaUtil;
 use App\Http\Requests\Api\CaptchaRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Enum\CaptchaEnum;
+use App\Models\User;
 
 class CaptchaController extends Controller
 {
@@ -25,7 +27,9 @@ class CaptchaController extends Controller
      *     {
      *          "status":"200",
      *          "msg":"发送成功",
-     *          "data":[]
+     *          "data":{
+     *              "set_password":"bool"
+     *          }
      *     }
      *
      *
@@ -48,10 +52,16 @@ class CaptchaController extends Controller
      */
     public function send(CaptchaRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all(['mobile','type']);
         if(($message = CaptchaUtil::send($data['mobile'],$data['type'])) !== true){
             return show(Core::HTTP_ERROR_CODE, $message);
         }
-        return show(Core::HTTP_SUCCESS_CODE, '发送成功');
+        $set_password = false;
+        if($data['type'] == CaptchaEnum::BIND_WEICHAT) {
+            $user = User::where('mobile', $data['mobile'])->first();
+            if($user && !$user->password)
+                $set_password = true;
+        }
+        return show(Core::HTTP_SUCCESS_CODE, '发送成功',compact('set_password'));
     }
 }

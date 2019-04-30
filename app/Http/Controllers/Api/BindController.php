@@ -11,6 +11,7 @@ use App\Models\Enum\CaptchaEnum;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class BindController extends Controller
 {
@@ -30,8 +31,9 @@ class BindController extends Controller
      * @apiSampleRequest bind
      * @apiParam {String} wx_oauth  微信登录唯一凭证(必填)
      * @apiParam {String} mobile    手机号(必填)
-     * @apiParam {String} code      密码(必填)
+     * @apiParam {String} code      验证码码(必填)
      * @apiParam {String} avatar    头像(必填)
+     * @apiParam {String} password  密码(选填)
      * @apiPermission 无
      * @apiName bind
      * @apiGroup B-bind
@@ -74,14 +76,18 @@ class BindController extends Controller
      */
     public function bind(BindRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all(['mobile','code','password','avatar','wx_oauth']);
         if (!($captcha = CaptchaUtil::check($data['code'], $data['mobile'], CaptchaEnum::BIND_WEICHAT))) {
             return show(Core::HTTP_ERROR_CODE, '验证码错误或过期');
         }
         $user = User::where('mobile',$data['mobile'])->first();
+        if($data['password'])
+            $data['password'] = Hash::make($data['password']);
         if($user){
             $user->wx_oauth = $data['wx_oauth'];
             $user->avatar = $data['avatar'];
+            if($data['password'] && !$user->password)
+                $user->password = $data['password'];
             $user->save();
         }else{
             unset($data['code']);
