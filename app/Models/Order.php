@@ -20,7 +20,11 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    //关联快递
+    public function express()
+    {
+        return $this->belongsTo(Express::class);
+    }
     //搜索
     public function scopeSearch(Builder $query)
     {

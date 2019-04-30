@@ -44,6 +44,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         //订单列表
         Route::post('/order','OrderController@index')->name('order.index');
         Route::post('/order/show/{order}','OrderController@show')->name('order.show');
+        //物流详情
+        Route::post('/order/express/{order}','ExpressController@index')->name('express.index');
         //下单
         Route::post('/order/store/{good}/{address}','OrderController@store')->name('order.store');
         //支付
