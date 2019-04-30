@@ -23,7 +23,7 @@ class OrderEnum{
             case self::PAYED:
                 return '待发货';
             case self::POSTED:
-                return '待收货';
+                return '已发货';
             case self::FINISH:
                 return '已完成';
             default:

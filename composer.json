@@ -15,7 +15,8 @@
         "medz/cors": "^1.4",
         "mrgoon/aliyun-sms": "dev-master",
         "yansongda/laravel-pay": "^2.0",
-        "stevenyangecho/laravel-u-editor": "~1.4"
+        "stevenyangecho/laravel-u-editor": "~1.4",
+        "simplesoftwareio/simple-qrcode": "~2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

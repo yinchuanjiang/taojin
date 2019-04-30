@@ -57,5 +57,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/balance/detail','BalanceDetailController@index')->name('balance.index');
         //申请提现
         Route::post('/withdraw','WithdrawController@withdraw')->name('withdraw.withdraw');
+        //我的团队
+        Route::post('/user/invites','UserController@invites')->name('user.invites');
     });
 });

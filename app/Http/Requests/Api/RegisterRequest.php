@@ -31,6 +31,7 @@ class RegisterRequest extends FormRequest
                     'mobile' => ['required','max:11','min:11'],
                     'code' => ['required','max:6','min:6'],
                     'password' => ['required','max:20','min:6'],
+                    'invite_id' => ['nullable','min:1','numeric']
                 ];
             }
             case 'PUT':
@@ -54,6 +55,8 @@ class RegisterRequest extends FormRequest
             'password.required' => '密码不能为空',
             'password.max' => '密码长度不能超过20个字符',
             'password.min' => '密码长度不能小于6个字符',
+            'invite_id.min' => '邀请id最小为1',
+            'invite_id.numeric' =>  '邀请id为数字'
         ];
     }
 }

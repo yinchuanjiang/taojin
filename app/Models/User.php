@@ -54,6 +54,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class,'invite_id','id');
     }
+    //关联我推荐的人
+    public function invites()
+    {
+        return $this->hasMany(User::class,'invite_id','id');
+    }
     //关联下级
     public function underless()
     {
