@@ -59,7 +59,7 @@ class CaptchaController extends Controller
         $set_password = false;
         if($data['type'] == CaptchaEnum::BIND_WEICHAT) {
             $user = User::where('mobile', $data['mobile'])->first();
-            if($user && !$user->password)
+            if(!$user || ($user && !$user->password))
                 $set_password = true;
         }
         return show(Core::HTTP_SUCCESS_CODE, '发送成功',compact('set_password'));
