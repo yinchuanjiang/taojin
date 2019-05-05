@@ -13,8 +13,8 @@ class ResetPasswordController extends Controller
 {
     //重置密码
     /**
-     * @api {POST} user/reset-password 重置密码
-     * @apiSampleRequest user/reset-password
+     * @api {POST} reset-password 重置密码
+     * @apiSampleRequest reset-password
      * @apiParam {String} mobile      手机号(必填)
      * @apiParam {String} code        验证码(必填)
      * @apiParam {String} password    密码(必填)
