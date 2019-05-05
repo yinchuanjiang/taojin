@@ -59,5 +59,9 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/withdraw','WithdrawController@withdraw')->name('withdraw.withdraw');
         //我的团队
         Route::post('/user/invites','UserController@invites')->name('user.invites');
+        //重置密码
+        Route::post('/user/reset-password','ResetPasswordController@resetPassword')->name('reset.reset-password');
+        //修改密码
+        Route::post('/user/modify-password','UserController@modifyPassword')->name('user.modify-password');
     });
 });
