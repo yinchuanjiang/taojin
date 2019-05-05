@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Config;
 use App\Http\Controllers\Controller;
+use App\Models\Enum\ConfigEnum;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -81,22 +82,26 @@ class ConfigController extends Controller
     {
         $grid = new Grid(new Config);
 
-        $grid->id('Id');
         $grid->name('配置名称')->display(function ($name){
-            return Core::get($name);
+            return ConfigEnum::get($name);
         });
 
-        $grid->value('配置内容')->editable();;
         $grid->created_at('创建时间');
-        $grid->updated_at('更新时间');
-        $grid->disableCreateButton();
-        $grid->disableExport();
-        $grid->disableRowSelector();
-        $grid->tools(function (Grid\Tools $tools) {
-            $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                $actions->disableDelete();
+        //禁用批量删除
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
             });
         });
+        //关闭行操作 删除
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+            $actions->disableView();
+        });
+        //禁用导出数据按钮
+        $grid->disableExport();
+        $grid->disableCreateButton();
+        $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
     }
 
@@ -127,10 +132,26 @@ class ConfigController extends Controller
     protected function form()
     {
         $form = new Form(new Config);
+        $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
+        $form->text('version','版本号');
+        $form->text('url','下载地址');
+        $form->footer(function ($footer) {
+            // 去掉`重置`按钮
+            $footer->disableReset();
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+            // 去掉`继续编辑`checkbox
+            $footer->disableEditingCheck();
+            // 去掉`继续创建`checkbox
+            $footer->disableCreatingCheck();
 
-        $form->text('name', '配置名');
-        $form->textarea('value', '配置值');
-        //$form->text('type', 'Type');
+        });
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableView();
+            $tools->disableDelete();
+        });
         return $form;
     }
 }

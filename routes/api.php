@@ -33,6 +33,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/home','HomeController@index')->name('home.index');
     //重置密码
     Route::post('/reset-password','ResetPasswordController@resetPassword')->name('reset.reset-password');
+    //版本检查
+    Route::post('/version/check','VersionController@check')->name('version.check');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
         //商品

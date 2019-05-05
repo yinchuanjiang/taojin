@@ -16,7 +16,7 @@ class CreateConfigsTable extends Migration
         Schema::create('configs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->comment('配置名');
-            $table->string('value')->comment('配置值');
+            $table->longText('value')->comment('配置值');
             $table->timestamps();
             $table->engine = 'myisam';
         });
