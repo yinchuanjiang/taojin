@@ -17,6 +17,8 @@ class OrderController extends ApiBaseController
      * @api {POST} order 订单列表
      * @apiSampleRequest order
      * @apiParam {String} status    订单状态(-1取消 0待付款 1待发货 2待收货 3已完成)
+     * @apiParam {Number} page      分页(选填 默认1)
+     * @apiParam {Number} limit     每页条数(选填 默认15)
      * @apiHeader {String} authorization Authorization value.
      * @apiPermission 无
      * @apiName order
@@ -61,7 +63,8 @@ class OrderController extends ApiBaseController
      */
     public function index()
     {
-        $orders = OrderResource::collection(Order::where('user_id',$this->user->id)->search()->get());
+        $data = Order::where('user_id',$this->user->id)->search()->paginate($this->limit)->pluck('id')->toArray();
+        $orders = OrderResource::collection(Order::whereIn('id',$data)->get());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('orders'));
     }
     //下单

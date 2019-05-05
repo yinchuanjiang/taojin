@@ -14,6 +14,8 @@ class BalanceDetailController extends ApiBaseController
      * @api {POST} balance/detail 资金记录
      * @apiSampleRequest balance/detail
      * @apiHeader {String} authorization Authorization value.
+     * @apiParam {Number} page      分页(选填 默认1)
+     * @apiParam {Number} limit     每页条数(选填 默认15)
      * @apiPermission 无
      * @apiName balance
      * @apiGroup H-Balance
@@ -56,7 +58,8 @@ class BalanceDetailController extends ApiBaseController
      */
     public function index()
     {
-        $details = BalanceDetailResource::collection(BalanceDetail::where('user_id',$this->user->id)->order('id','desc')->get());
+        $data = BalanceDetail::where('user_id',$this->user->id)->orderBy('id','desc')->paginate($this->limit)->pluck('id')->toArray();
+        $details = BalanceDetailResource::collection(BalanceDetail::whereIn('id',$data)->get());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('details'));
     }
 }
