@@ -38,6 +38,12 @@ class CaptchaUtil
                         $message = '该手机号已绑定其他微信！';
                 }
                 break;
+            case CaptchaEnum::RESET_PASSWORD:
+                $user = User::where('mobile',$mobile)->first();
+                if(!$user) {
+                    $message = '手机号错误！';
+                }
+                break;
             default:
                 $message = '';
         }

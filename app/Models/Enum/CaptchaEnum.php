@@ -10,7 +10,7 @@ class CaptchaEnum
 {
     // 状态类别
     const REGISTER = '10000'; //注册
-    const RESET_PASSWORD = '10001'; //修改密码
+    const RESET_PASSWORD = '10001'; //重置密码
     const BIND_WEICHAT = '10002'; // 绑定微信
 
     const CAPTCHA_USED_FALSE = -1;//验证码未使用
