@@ -7,6 +7,7 @@ use App\Http\Core\Util\CaptchaUtil;
 use App\Http\Requests\Api\ResetPasswordRequest;
 use App\Models\Enum\CaptchaEnum;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
@@ -56,7 +57,9 @@ class ResetPasswordController extends Controller
             return show(Core::HTTP_ERROR_CODE, '验证码错误或过期');
         }
         unset($data['code']);
-        $user = $this->user;
+        $user = User::where('mobile',$data['mobile'])->first();
+        if(!$user)
+            return show(Core::HTTP_ERROR_CODE,'非法操作');
         $user->password = Hash::make($data['password']);
         $captcha->is_used = CaptchaEnum::CAPTCHA_USED_TRUE;
         $user->save();
