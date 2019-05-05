@@ -7,6 +7,7 @@ use App\Http\Requests\Api\OrderRequest;
 use App\Http\Resources\Api\AddressResource;
 use App\Http\Resources\Api\OrderResource;
 use App\Models\Address;
+use App\Models\Enum\OrderEnum;
 use App\Models\Good;
 use App\Models\Order;
 
@@ -193,5 +194,51 @@ class OrderController extends ApiBaseController
             return show(Core::HTTP_ERROR_CODE,'非法操作');
         $order = new OrderResource($order);
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('order'));
+    }
+    //确认收货
+    /**
+     * @api {POST} order/confirm/:id 确认收货
+     * @apiSampleRequest order/confirm/:id
+     * @apiHeader {String} authorization Authorization value.
+     * @apiPermission 无
+     * @apiName confirm
+     * @apiGroup F-Order
+     * @apiVersion 1.0.0
+     * @apiDescription   api   确认收货
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *          "status":"200",
+     *          "msg":"收货成功",
+     *          "data":[]
+     *     }
+     *
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 422 Not Found  422错误提示,请使用ajax异常扑获取
+     *      {
+     *          "message": "The given data was invalid.",
+     *              "errors": {
+     *                   "type": [
+     *                       "type 不能为空。"
+     *                   ]
+     *               }
+     *            }
+     * @apiErrorExample Error-Response:
+     *      {
+     *          "status":"400",
+     *          "msg":"错误提示",
+     *          "data":[]
+     *      }
+     */
+    public function confirm(Order $order)
+    {
+        if($order->user_id != $this->user->id)
+            return show(Core::HTTP_ERROR_CODE,'非法操作');
+        if($order->status != OrderEnum::POSTED)
+            return show(Core::HTTP_ERROR_CODE,'非发货不能收货');
+        $order->status = OrderEnum::FINISH;
+        $order->save();
+        return show(Core::HTTP_SUCCESS_CODE,'收货成功');
     }
 }

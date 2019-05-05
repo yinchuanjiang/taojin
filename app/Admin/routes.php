@@ -14,4 +14,5 @@ Route::group([
     $router->resource('goods', GoodController::class);
     $router->resource('good-images', GoodImgController::class);
     $router->resource('orders', OrderController::class);
+    $router->resource('users', UserController::class);
 });
