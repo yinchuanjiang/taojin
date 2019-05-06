@@ -63,7 +63,7 @@ class VersionController extends Controller
         $useVersion = explode('.',$data['version']);
         if(count($nowVersion) != count($useVersion))
             return show(Core::HTTP_ERROR_CODE,'非法请求');
-        if($nowVersion[0] > $useVersion[0] || $nowVersion[1] > $useVersion[2]){
+        if($nowVersion[0] > $useVersion[0] || $nowVersion[1] > $useVersion[1]){
             $config->update = 'big';
         }else{
             $config->update = 'small';
