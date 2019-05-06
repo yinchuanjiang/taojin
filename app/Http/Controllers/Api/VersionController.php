@@ -27,7 +27,7 @@ class VersionController extends Controller
      *          "msg":"检查成功",
      *          "data":[
      *              "config":{
-     *                  "update":false:无需更新|big:大更新|small:小更新,
+     *                  "update":"false:无需更新|big:大更新|small:小更新",
      *                  "value":"版本说明",
      *                  "hot_url":"热更新文件",
      *                  "url":"下载地址"，

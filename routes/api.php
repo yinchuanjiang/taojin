@@ -67,5 +67,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/user/invites','UserController@invites')->name('user.invites');
         //修改密码
         Route::post('/user/modify-password','UserController@modifyPassword')->name('user.modify-password');
+        //关于我们
+        Route::post('/about','AboutUsController@show')->name('about.show');
     });
 });
