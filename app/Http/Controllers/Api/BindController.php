@@ -102,7 +102,7 @@ class BindController extends Controller
 
         return show(
             Core::HTTP_SUCCESS_CODE,
-            '登录成功',
+            '绑定成功，已登录',
             [
                 'token' => $token['token'],
                 'refresh_token' => $token['refresh_token'],

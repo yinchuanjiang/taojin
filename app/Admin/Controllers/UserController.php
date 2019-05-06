@@ -82,10 +82,37 @@ class UserController extends Controller
         $grid = new Grid(new User);
 
         $grid->mobile('手机号');
-        $grid->inviter()->mobile('邀请者');
+        $grid->inviter()->mobile('邀请者')->display(function ($mobile){
+            return "<span class='label label-success'>".$mobile."</span>";
+        });
         $grid->balance('余额');
         $grid->created_at('注册时间');
 
+        $grid->filter(function ($filter) {
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            $filter->equal('mobile','手机号');
+            // 设置created_at字段的范围查询
+            $filter->between('created_at', '创建日期')->datetime();
+        });
+        //禁用批量删除
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+        //关闭行操作 删除
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+            $actions->disableView();
+            $actions->disableEdit();
+        });
+        //禁用导出数据按钮
+        $grid->disableExport();
+        $grid->disableCreateButton();
+        //设置分页选择器选项
+        $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
     }
 
