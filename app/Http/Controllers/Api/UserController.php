@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Core\Core;
 use App\Http\Requests\Api\ModifyPasswordRequest;
+use App\Models\Enum\OrderEnum;
+use App\Models\Order;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -51,6 +53,9 @@ class UserController extends ApiBaseController
      */
     public function invites()
     {
+        $orders = Order::where('user_id', $this->user->id)->where('status','>=',OrderEnum::PAYED)->get()->toArray();
+        if(!$orders)
+            return show(Core::HTTP_ERROR_CODE,'您还没有任何购买记录，不能推广');
         $invites = $this->user->ivites;
         $total = 0;
         if($invites) {
