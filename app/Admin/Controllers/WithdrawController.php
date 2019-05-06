@@ -2,19 +2,17 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Enum\OrderEnum;
-use App\Models\Express;
-use App\Models\Good;
-use App\Models\Order;
+use App\Models\Enum\BalanceDetailEnum;
+use App\Models\Enum\WithdrawEnum;
+use App\Models\Withdraw;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class OrderController extends Controller
+class WithdrawController extends Controller
 {
     use HasResourceActions;
 
@@ -83,48 +81,34 @@ class OrderController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Order);
-        $grid->model()->orderBy('created_at','desc');
-        $grid->user_id('用户手机号')->display(function ($userId){
-            $name = User::find($userId)->mobile;
-            return "<span class='label label-info'>{$name}</span>";
-        });
-        $grid->good_id('商品')->display(function ($goodId){
-            $name = Good::find($goodId)->title;
-            return "<span class='label label-info'>{$name}</span>";
-        });
-        $grid->sn('订单号');
-        $grid->quantity('数量');
-        $grid->total('总金额');
+        $grid = new Grid(new Withdraw);
+        $grid->id('Id');
+        $grid->user()->mobile('手机号');
+        $grid->cash('提现金额');
+        $grid->account('提现账户');
+        $grid->real_name('真实姓名');
+        $grid->bank_of_deposit('银行开户行');
         $grid->status('状态')->display(function ($status){
-            if($status == OrderEnum::CANCEL) {
+            if($status == WithdrawEnum::INVALID) {
                 $color = 'label-default';
-            }elseif ($status == OrderEnum::PAYED){
+            }elseif ($status == WithdrawEnum::APPLY){
                 $color = 'label-danger';
-            }elseif ($status == OrderEnum::PAYING){
-                $color = 'label-info';
             }else{
                 $color = 'label-success';
             }
-            return "<span class='label {$color}'>".OrderEnum::getStatusName($status)."</span>";
+            return "<span class='label {$color}'>".WithdrawEnum::getStatusName($status)."</span>";
         });
-        $grid->address('地址')->display(function ($address){
-            $address = \GuzzleHttp\json_decode($address,true);
-            return '收件人:'.$address['to_name'].' 联系方式: '.$address['mobile'].' 地址：'.$address['address'].$address['detail'];
-        });
-        $grid->created_at('创建时间');
+        $grid->created_at('申请时间');
         $grid->filter(function ($filter) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             //手机号查询
             $status = [
-                OrderEnum::CANCEL => OrderEnum::getStatusName(OrderEnum::CANCEL),
-                OrderEnum::PAYING => OrderEnum::getStatusName(OrderEnum::PAYING),
-                OrderEnum::PAYED => OrderEnum::getStatusName(OrderEnum::PAYED),
-                OrderEnum::POSTED => OrderEnum::getStatusName(OrderEnum::POSTED),
-                OrderEnum::FINISH => OrderEnum::getStatusName(OrderEnum::FINISH),
+                WithdrawEnum::INVALID => WithdrawEnum::getStatusName(WithdrawEnum::INVALID),
+                WithdrawEnum::APPLY => WithdrawEnum::getStatusName(WithdrawEnum::APPLY),
+                WithdrawEnum::SUCCESS => WithdrawEnum::getStatusName(WithdrawEnum::SUCCESS),
             ];
-            $filter->equal('status','订单状态')->select($status);
+            $filter->equal('status','状态')->select($status);
             $filter->where(function ($query) {
                 $query->whereHas('user', function ($query) {
                     $query->where('mobile', 'like', "%{$this->input}%");
@@ -144,6 +128,9 @@ class OrderController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableView();
+            $actions->disableEdit();
+            if($actions->row->status == WithdrawEnum::APPLY)
+                $actions->append('<a href="/admin/withdraws/'.$actions->row->id.'/edit"><i class="fa fa-edit"></i></a>');
         });
         //禁用导出数据按钮
         $grid->disableExport();
@@ -161,16 +148,15 @@ class OrderController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Order::findOrFail($id));
+        $show = new Show(Withdraw::findOrFail($id));
 
         $show->id('Id');
         $show->user_id('User id');
-        $show->good_id('Good id');
-        $show->sn('Sn');
-        $show->quantity('Quantity');
-        $show->total('Total');
+        $show->cash('Cash');
+        $show->account('Account');
+        $show->real_name('Real name');
+        $show->bank_of_deposit('Bank of deposit');
         $show->status('Status');
-        $show->address('Address');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -184,12 +170,14 @@ class OrderController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Order);
+        $form = new Form(new Withdraw);
 
-        $form->select('status', '状态')->options([OrderEnum::POSTED => OrderEnum::getStatusName(OrderEnum::POSTED)])->required();
-        $express = Express::all()->pluck('name','id')->all();
-        $form->select('express_id', '快递')->options($express)->required();
-        $form->text('express_code', '快递单号')->options($express)->required();
+        $form->select('status', '状态')->options(
+            [
+                WithdrawEnum::INVALID => WithdrawEnum::getStatusName(WithdrawEnum::INVALID),
+                WithdrawEnum::SUCCESS => WithdrawEnum::getStatusName(WithdrawEnum::SUCCESS)
+            ]
+        )->required();
         $form->footer(function ($footer) {
             // 去掉`重置`按钮
             $footer->disableReset();

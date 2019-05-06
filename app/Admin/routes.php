@@ -15,5 +15,6 @@ Route::group([
     $router->resource('good-images', GoodImgController::class);
     $router->resource('orders', OrderController::class);
     $router->resource('users', UserController::class);
+    $router->resource('withdraws', WithdrawController::class);
     $router->resource('configs', ConfigController::class);
 });

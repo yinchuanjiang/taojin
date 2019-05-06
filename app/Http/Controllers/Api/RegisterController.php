@@ -6,6 +6,7 @@ use App\Http\Core\Core;
 use App\Http\Core\Util\CaptchaUtil;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Models\Enum\CaptchaEnum;
+use App\Models\Enum\ConfigEnum;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -62,5 +63,48 @@ class RegisterController extends Controller
         $captcha->is_used = CaptchaEnum::CAPTCHA_USED_TRUE;
         $captcha->save();
         return show(Core::HTTP_SUCCESS_CODE, '用户注册成功');
+    }
+
+    //注册协议
+    /**
+     * @api {POST} agreement 注册协议
+     * @apiSampleRequest register
+     * @apiPermission 无
+     * @apiName agreement
+     * @apiGroup A-Register
+     * @apiVersion 1.0.0
+     * @apiDescription   api   注册协议
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *          "status":"200",
+     *          "msg":"获取成功",
+     *          "data":{
+     *              "agreement":"注册协议"
+     *          }
+     *     }
+     *
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 422 Not Found  422错误提示,请使用ajax异常扑获取
+     *      {
+     *          "message": "The given data was invalid.",
+     *              "errors": {
+     *                   "type": [
+     *                       "type 不能为空。"
+     *                   ]
+     *               }
+     *            }
+     * @apiErrorExample Error-Response:
+     *      {
+     *          "status":"400",
+     *          "msg":"错误提示",
+     *          "data":[]
+     *      }
+     */
+    public function agreement()
+    {
+        $agreement = ConfigEnum::getValue('USER_AGREEMENT');
+        return show(Core::HTTP_SUCCESS_CODE, '获取成功',compact('agreement'));
     }
 }

@@ -25,6 +25,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/captcha/send','CaptchaController@send')->name('captcha.send');
     //注册
     Route::post('/register','RegisterController@register')->name('register.register');
+    //注册协议
+    Route::post('/agreement','RegisterController@agreement')->name('register.agreement');
     //登录
     Route::post('/login','LoginController@login')->name('login.login');
     //绑定微信
@@ -35,6 +37,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/reset-password','ResetPasswordController@resetPassword')->name('reset.reset-password');
     //版本检查
     Route::post('/version/check','VersionController@check')->name('version.check');
+    //关于我们
+    Route::post('/about','AboutUsController@show')->name('about.show');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
         //商品
@@ -67,7 +71,5 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/user/invites','UserController@invites')->name('user.invites');
         //修改密码
         Route::post('/user/modify-password','UserController@modifyPassword')->name('user.modify-password');
-        //关于我们
-        Route::post('/about','AboutUsController@show')->name('about.show');
     });
 });

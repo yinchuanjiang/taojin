@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Core\Core;
 use App\Models\Enum\ConfigEnum;
 
-class AboutUsController extends ApiBaseController
+class AboutUsController extends Controller
 {
     //关于我们和客服文案
     /**
@@ -49,9 +50,9 @@ class AboutUsController extends ApiBaseController
      */
     public function show()
     {
-        $help = ConfigEnum::getValue(ConfigEnum::COMPANY_HELP);
-        $about = ConfigEnum::getValue(ConfigEnum::COMPANY_ABOUT_US);
-        $tel = ConfigEnum::getValue(ConfigEnum::COMPANY_TEL);
+        $help = ConfigEnum::getValue("COMPANY_HELP");
+        $about = ConfigEnum::getValue('COMPANY_ABOUT_US');
+        $tel = ConfigEnum::getValue('COMPANY_TEL');
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('help','tel','about'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Enum\BalanceDetailEnum;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -9,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class UserController extends Controller
 {
@@ -85,7 +87,26 @@ class UserController extends Controller
         $grid->inviter()->mobile('邀请者')->display(function ($mobile){
             return "<span class='label label-success'>".$mobile."</span>";
         });
-        $grid->balance('余额');
+        $grid->balance('余额')->expand(function ($model){
+            $details = $model->balanceDetails()->get()->map(function ($detail) {
+                 $detail->only(['id', 'type', 'cash','before_balance','after_balance','created_at']);
+                 $detail->type = BalanceDetailEnum::getStatusName($detail->type);
+                 return $detail;
+            });
+            return new Table(['ID', '类型', '金额','发生前金额','发生后金额','发生时间'], $details->toArray());
+        });
+        $grid->column('column_not_in_table','我的团队')->modal('我的团队',function ($model){
+            $underlessData = [];
+            $underless = $model->underless()->get();
+            foreach ($underless as $underles){
+                $underlessData[] = ['id' => $underles->id,'mobile'=>$underles->mobile,'type'=>'一级'];
+                if($underles->underless)
+                    foreach ($underles->underless as $underle){
+                        $underlessData[] = ['id' => $underle->id,'mobile'=>$underle->mobile,'type'=>'二级'];;
+                    }
+            }
+            return new Table(['ID', '手机号','类型'], $underlessData);
+        });
         $grid->created_at('注册时间');
 
         $grid->filter(function ($filter) {
