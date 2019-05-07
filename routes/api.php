@@ -39,6 +39,9 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/version/check','VersionController@check')->name('version.check');
     //关于我们
     Route::post('/about','AboutUsController@show')->name('about.show');
+    //支付异步通知
+    Route::post('/pay/notify','VerifyController@notify')->name('verify.notify');
+    Route::post('/pay/wx-notify','VerifyController@wxNotify')->name('verify.wx-notify');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
         //商品
@@ -60,9 +63,6 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('/order/store/{good}/{address}','OrderController@store')->name('order.store');
         //支付
         Route::post('/pay/{order}','PayController@pay')->name('pay.pay');
-        //支付异步通知
-        Route::post('/pay/notify','PayController@notify')->name('pay.notify');
-        Route::post('/pay/wx-notify','PayController@wxNotify')->name('pay.wx-notify');
         //资金记录
         Route::post('/balance/detail','BalanceDetailController@index')->name('balance.index');
         //申请提现
