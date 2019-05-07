@@ -47,6 +47,7 @@ class VerifyController extends Controller
             Log::debug('Alipay notify', $data->all());
         } catch (\Exception $e) {
             Log::debug('Alipay notify error', $e->getMessage());
+            return show(Core::HTTP_ERROR_CODE,'非法请求');
         }
 
         return $alipay->success();// laravel 框架中请直接 `return $alipay->success()`
@@ -65,7 +66,8 @@ class VerifyController extends Controller
 
             Log::debug('Wechat notify', $data->all());
         } catch (\Exception $e) {
-            // $e->getMessage();
+            Log::debug('Wechat pay notify error', $e->getMessage());
+            return show(Core::HTTP_ERROR_CODE,'非法请求');
         }
         return $pay->success();// laravel 框架中请直接 `return $alipay->success()`
     }
