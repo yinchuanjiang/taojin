@@ -68,6 +68,7 @@ class VersionController extends Controller
         }else if($config->version != $data['version']){
             $config->update = 'small';
         }
+        $config->hot_url = '';
         return show(Core::HTTP_SUCCESS_CODE,'检查版本成功',compact('config'));
     }
 }
