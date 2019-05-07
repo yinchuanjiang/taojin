@@ -165,6 +165,8 @@ class PayController extends ApiBaseController
      */
     public function distributor(User $buyer)
     {
+        if(!Core::DISTRIBUTOR_STATUS)
+            return;
         $orders = $buyer->orders()->where('status', OrderEnum::PAYED)->get();
         if (count($orders) > 1)
             return;

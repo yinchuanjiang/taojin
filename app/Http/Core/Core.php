@@ -37,4 +37,6 @@ class Core
 
     const SECOND_DISTRIBUTOR_MONEY = 2500.00;//二级分销分成金额
 
+    const DISTRIBUTOR_STATUS = true;//分销开关
+
 }
