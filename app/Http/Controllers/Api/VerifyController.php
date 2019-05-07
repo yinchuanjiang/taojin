@@ -86,11 +86,16 @@ class VerifyController extends Controller
         /** @var User $inviter */
         $inviter = $buyer->inviter;
         $underless = $inviter->underless()->count();
+        if (!$underless)
+            return;
         //一级分销 推荐2人推荐人加 500
-        if ($underless % Core::FIRST_DISTRIBUTOR_PEOPLE == 0) {
-            $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::FIRST_REWARD_TYPE, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
-            $inviter->balanceDetails()->save($balanceDetail);
-        }
+        $buyerUnder = $this->getBuyerUnder($inviter->underless);
+        if(!count($buyerUnder))
+            return;
+        if(count($buyerUnder) % 2 != 0)
+            return;
+        $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::FIRST_REWARD_TYPE, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
+        $inviter->balanceDetails()->save($balanceDetail);
         //二级分销
         if (!$inviter->invite_id)
             return;
@@ -101,15 +106,33 @@ class VerifyController extends Controller
         //记算下下级人数
         $underTeam = [];
         foreach ($allUnderless as $allUnderles) {
-            /** @var User $allUnderles */
-            $underTeam[] = $allUnderles->underless()->count() % 2 == 0 ? 'ok' : 'no';
+            //获取下级的下级购买人数
+            $allBuyerUnder = $this->getBuyerUnder($allUnderles->underless);
+            if(!$allBuyerUnder)
+                continue;
+            count($allBuyerUnder) % 2 == 0 ? $underTeam[] = count($allBuyerUnder) : '';
         }
-        $result = array_count_values($underTeam);
-        if (!isset($result['ok']))
+        if(!$underTeam)
             return;
-        if ($result['ok'] % Core::SECOND_DISTRIBUTOR_PEOPLE != 0)
+        if(array_sum($underTeam) % 4 != 0)
             return;
         $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::SECONE_REWARD_TYPE, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
         $inviter->balanceDetails()->save($balanceDetail);
+    }
+
+    //获取我的购买的下级
+    /**
+     * @param $underless
+     * @return array
+     */
+    public function getBuyerUnder($underless)
+    {
+        $data = [];
+        foreach ($underless as $underles){
+            $order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
+            if($order)
+                $data[] = $underles->id;
+        }
+        return $data;
     }
 }
