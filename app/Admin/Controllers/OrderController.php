@@ -27,8 +27,8 @@ class OrderController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('订单管理')
+            ->description('订单列表')
             ->body($this->grid());
     }
 
@@ -57,8 +57,8 @@ class OrderController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('订单管理')
+            ->description('发货')
             ->body($this->form()->edit($id));
     }
 

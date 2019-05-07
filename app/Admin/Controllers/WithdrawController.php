@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Enum\BalanceDetailEnum;
 use App\Models\Enum\WithdrawEnum;
 use App\Models\Withdraw;
 use App\Http\Controllers\Controller;

@@ -89,9 +89,8 @@ class UserController extends Controller
         });
         $grid->balance('余额')->expand(function ($model){
             $details = $model->balanceDetails()->get()->map(function ($detail) {
-                 $detail->only(['id', 'type', 'cash','before_balance','after_balance','created_at']);
                  $detail->type = BalanceDetailEnum::getStatusName($detail->type);
-                 return $detail;
+                 return $detail->only(['id', 'type', 'cash','before_balance','after_balance','created_at']);
             });
             return new Table(['ID', '类型', '金额','发生前金额','发生后金额','发生时间'], $details->toArray());
         });
