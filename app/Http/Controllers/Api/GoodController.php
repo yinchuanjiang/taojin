@@ -64,7 +64,7 @@ class GoodController extends Controller
      */
     public function index()
     {
-        $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->with('goodImgs')->first());
+        $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->first());
         $address = [];
         $user = request()->user('api');
         if($user && $user->address->count())
