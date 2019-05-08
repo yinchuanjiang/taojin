@@ -50,7 +50,7 @@ class AboutUsController extends Controller
      */
     public function show()
     {
-        $help = trim(strip_tags(ConfigEnum::getValue("COMPANY_HELP")));
+        $help = trim(strip_tags(htmlspecialchars_decode(ConfigEnum::getValue("COMPANY_HELP"))));
         $about = ConfigEnum::getValue('COMPANY_ABOUT_US');
         $tel = trim(strip_tags(ConfigEnum::getValue('COMPANY_TEL')));
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('help','tel','about'));
