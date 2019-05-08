@@ -21,6 +21,7 @@ class CreateGoodsTable extends Migration
             $table->longText('describe')->nullable()->commnet('描述');
             $table->tinyInteger('status')->default(\App\Models\Enum\GoodEnum::NORMAL)->comment('状态');
             $table->integer('stock')->default(0)->comment('库存');
+            $table->json('pictures')->comment('商品图片');
             $table->timestamps();
             $table->engine = 'myisam';
         });

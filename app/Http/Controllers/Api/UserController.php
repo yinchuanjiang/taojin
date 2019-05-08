@@ -65,7 +65,7 @@ class UserController extends ApiBaseController
             }
         }
         QrCode::format('png')->size(250)->generate(route('web.register',['invite_id' => $this->user->id]),'./qrcode/'.$this->user->id.'.png');
-        $img = config('app.url').'qrcode/'.$this->user->id.'.png';
+        $img = config('app.url').'/qrcode/'.$this->user->id.'.png';
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('total','img'));
     }
     //修改密码
