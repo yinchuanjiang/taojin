@@ -67,7 +67,7 @@ class GoodController extends Controller
         $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->with('goodImgs')->first());
         $address = [];
         $user = request()->user('api');
-        if($user && $this->user->address->count())
+        if($user && $user->address->count())
             $address = new AddressResource(Address::where('user_id',$this->user->id)->first());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('good','address'));
     }
