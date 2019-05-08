@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api;
 
 use App\Models\GoodImg;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class GoodResource extends JsonResource
 {
@@ -21,7 +22,7 @@ class GoodResource extends JsonResource
             'price' => $this->price,
             'sales_volume' => $this->sales_volume,
             //'describe' => htmlspecialchars($this->describe),
-            'describe' => $this->describe,
+            'describe' => str_replace('<img src="/uploads/','<img src="'.config('app.url').'/uploads/',$this->describe),
             'stock' => $this->stock,
             'good_imgs' => GoodImgResource::collection($this->goodImgs),
         ];
