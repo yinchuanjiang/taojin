@@ -1,7 +1,7 @@
-@servers(['web' => 'root@157.230.142.70'])
+@servers(['web' => 'root@106.14.184.98'])
 
 @task('deploy', ['on' => ['web'], 'parallel' => true])
-cd /var/www/taojin
+cd /www/wwwroot/taojin
 {{--git pull origin {{ $branch }}--}}
 git pull origin master
 composer install --no-dev
