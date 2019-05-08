@@ -56,6 +56,12 @@ class UserController extends ApiBaseController
         $orders = Order::where('user_id', $this->user->id)->where('status','>=',OrderEnum::PAYED)->get()->toArray();
         if(!$orders)
             return show(Core::HTTP_ERROR_CODE,'您还没有任何购买记录，不能推广');
+        $share = [
+            'title' => '淘金APP-淘你第一桶金！',
+            'describe' => '分享描述',
+            'img_url' => config('app.url').'/uploads/share.jpeg',
+            'url' => route('web.register',['invite_id' => $this->user->id]),
+        ];
         $invites = $this->user->ivites;
         $total = 0;
         if($invites) {
@@ -66,7 +72,7 @@ class UserController extends ApiBaseController
         }
         QrCode::format('png')->size(250)->generate(route('web.register',['invite_id' => $this->user->id]),'./qrcode/'.$this->user->id.'.png');
         $img = config('app.url').'/qrcode/'.$this->user->id.'.png';
-        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('total','img'));
+        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('total','img','share'));
     }
     //修改密码
     /**
