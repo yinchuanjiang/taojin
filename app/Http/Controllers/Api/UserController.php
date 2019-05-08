@@ -58,7 +58,7 @@ class UserController extends ApiBaseController
             return show(Core::HTTP_ERROR_CODE,'您还没有任何购买记录，不能推广');
         $share = [
             'title' => '淘金APP-淘你第一桶金！',
-            'describe' => '分享描述',
+            'describe' => '淘你第一桶金！',
             'img_url' => config('app.url').'/uploads/share.jpeg',
             'url' => route('web.register',['invite_id' => $this->user->id]),
         ];
