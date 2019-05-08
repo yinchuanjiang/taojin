@@ -19,7 +19,19 @@ class GoodOneResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'price' => $this->price,
-            'good_imgs' =>new GoodImgResource($this->goodImgs()->first()),
+            'good_imgs' => $this->getPictures($this->pictures),
         ];
+    }
+
+    public function getPictures($pictures)
+    {
+        $data = [];
+        foreach ($pictures as $picture)
+        {
+            $data = [
+                'img_url' => config('app.url').'/uploads/'.$picture
+            ];
+        }
+        return $data;
     }
 }
