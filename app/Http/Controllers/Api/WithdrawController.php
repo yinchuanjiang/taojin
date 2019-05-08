@@ -54,7 +54,7 @@ class WithdrawController extends ApiBaseController
         $data = $request->all(['cash','account','real_name','bank_of_deposit']);
         if($this->user->balance < $data['cash'])
             return show(Core::HTTP_ERROR_CODE,'余额不足');
-        $this->user->balace = $this->user->balance - $data['cash'];
+        $this->user->balance = $this->user->balance - $data['cash'];
         $this->user->save();
         $this->user->withdraws()->save(new Withdraw($data));
         return show(Core::HTTP_SUCCESS_CODE,'申请成功');
