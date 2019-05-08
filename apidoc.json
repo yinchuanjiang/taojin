@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "apiDoc basic example",
   "title": "接口文档",
-  "url" : "https://echoyes.com/api/v1/",
-  "sampleUrl":"https://echoyes.com/api/v1/"
+  "url" : "http://taojin.gaojb.com/api/v1/",
+  "sampleUrl":"http://taojin.gaojb.com/api/v1/"
 }
