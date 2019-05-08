@@ -53,10 +53,23 @@ class ConfigController extends Controller
      */
     public function edit($id, Content $content)
     {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
+        $config = Config::find($id);
+        if(in_array($config->name,['APP_HOME','USER_AGREEMENT'])){
+            return $content
+                ->header('Edit')
+                ->description('description')
+                ->body($this->form('config')->edit($id));
+        }else if(in_array($config->name,['ANDROID_VERSION','IOS_VERSION'])){
+            return $content
+                ->header('Edit')
+                ->description('description')
+                ->body($this->form('version')->edit($id));
+        }else{
+            return $content
+                ->header('Edit')
+                ->description('description')
+                ->body($this->form('help')->edit($id));
+        }
     }
 
     /**
@@ -129,12 +142,18 @@ class ConfigController extends Controller
      *
      * @return Form
      */
-    protected function form()
+    protected function form($type = 'version')
     {
         $form = new Form(new Config);
-        $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
-        $form->text('version','版本号');
-        $form->text('url','下载地址');
+        if($type == 'version') {
+            $form->text('version', '版本号')->rules('required');
+            $form->text('url', '下载地址')->rules('required');
+            $form->textarea('value', '版本说明')->placeholder('请输入内容')->rules('required');
+        }else if($type == 'config'){
+            $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
+        }else{
+            $form->textarea('value', '配置值')->placeholder('请输入内容')->rules('required');
+        }
         $form->footer(function ($footer) {
             // 去掉`重置`按钮
             $footer->disableReset();
