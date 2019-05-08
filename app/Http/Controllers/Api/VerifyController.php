@@ -24,6 +24,7 @@ class VerifyController extends Controller
 
         try {
             $data = $alipay->verify(); // 是的，验签就这么简单！
+            Log::debug('Alipay notify', $data->all());
             // 订单号：$data->out_trade_no
             // 支付宝交易号：$data->trade_no
             // 订单总金额：$data->total_amount
@@ -46,7 +47,6 @@ class VerifyController extends Controller
             // 4、验证app_id是否为该商户本身。
             // 5、其它业务逻辑情况
 
-            Log::debug('Alipay notify', $data->all());
         } catch (\Exception $e) {
             Log::debug('Alipay notify error', $e->getMessage());
             return show(Core::HTTP_ERROR_CODE,'非法请求');
