@@ -20,7 +20,7 @@ class GoodResource extends JsonResource
             'title' => $this->title,
             'price' => $this->price,
             'sales_volume' => $this->sales_volume,
-            'describe' => $this->describe,
+            'describe' => htmlspecialchars($this->describe),
             'stock' => $this->stock,
             'good_imgs' => GoodImgResource::collection($this->goodImgs),
         ];
