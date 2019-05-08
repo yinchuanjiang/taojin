@@ -33,6 +33,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/bind','BindController@bind')->name('bind.bind');
     //首页
     Route::post('/home','HomeController@index')->name('home.index');
+    //商品
+    Route::post('/good','GoodController@index')->name('good.index');
     //重置密码
     Route::post('/reset-password','ResetPasswordController@resetPassword')->name('reset.reset-password');
     //版本检查
@@ -42,10 +44,9 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     //支付异步通知
     Route::post('/pay/notify','VerifyController@notify')->name('verify.notify');
     Route::post('/pay/wx-notify','VerifyController@wxNotify')->name('verify.wx-notify');
+    Route::get('/test','VerifyController@test')->name('verify.test');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
-        //商品
-        Route::post('/good','GoodController@index')->name('good.index');
         //地址数据
         Route::post('/address','AddressController@index')->name('address.index');
         //添加地址

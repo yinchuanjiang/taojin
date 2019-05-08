@@ -15,4 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('register','RegisterController@register')->name('web.register');
+Route::get('register','WebController@register')->name('web.register');
+Route::get('download',function (){
+    return view('web.download');
+})->name('download');

@@ -91,7 +91,7 @@ class VerifyController extends Controller
     {
         if(!Core::DISTRIBUTOR_STATUS)
             return;
-        $orders = $buyer->orders()->where('status', OrderEnum::PAYED)->get();
+        $orders = $buyer->orders()->where('status','>=', OrderEnum::PAYED)->get();
         if (count($orders) > 1)
             return;
         if (!$buyer->invite_id)
@@ -151,5 +151,12 @@ class VerifyController extends Controller
                 $data[] = $underles->id;
         }
         return $data;
+    }
+
+
+    public function test()
+    {
+        $user = User::find(12);
+        $this->distributor($user);
     }
 }

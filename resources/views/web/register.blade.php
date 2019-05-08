@@ -80,7 +80,7 @@
             <label class="weui-label">手机号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" maxlength="11" placeholder="请输入手机号">
+            <input class="weui-input" type="tel" name="mobile" maxlength="11" placeholder="请输入手机号">
         </div>
     </div>
     <div class="weui-cell weui-cell_vcode">
@@ -88,27 +88,27 @@
             <label class="weui-label">验证码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" maxlength="6" type="number" placeholder="请输入验证码">
+            <input class="weui-input" maxlength="6" type="number" name="code" placeholder="请输入验证码">
         </div>
         <div class="weui-cell__ft">
-            <input class="weui-vcode-btn" type="button" id="btn" value="获取验证码" onclick="settime(this)" />
+            <input class="weui-vcode-btn" type="button" id="btn" value="获取验证码" />
         </div>
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">设置密码</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="请输入密码">
+            <input class="weui-input" type="password"  name="password" placeholder="请输入密码">
         </div>
     </div>
     <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">邀请码</label></div>
+        <div class="weui-cell__hd"><label class="weui-label">邀请者</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="请输入邀请码">
+            <input class="weui-input" type="text" placeholder="" readonly value="@if($invite_id) {{(\App\Models\User::find($invite_id))->mobile}} @endif" >
         </div>
     </div>
 </div>
 <div class="btn-box">
-    <a href="javascript:;" class="weui-btn weui-btn_primary">立即注册</a>
+    <a href="javascript:;" class="weui-btn weui-btn_primary register">立即注册</a>
 </div>
 
 
@@ -130,9 +130,48 @@
 
     }
 </script>
-
-
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+<script type="text/javascript">
+    //获取验证码
+    $('#btn').on('click',function () {
+        let mobile = $('input[name=mobile]').val();
+        let type = "{{\App\Models\Enum\CaptchaEnum::REGISTER}}";
+        let that = this;
+        axios.post("{{route('captcha.send')}}",{mobile,type}).then(res => {
+            if(res.data.status == '{{\App\Http\Core\Core::HTTP_SUCCESS_CODE}}'){
+                settime(that)
+            }else {
+                alert(res.data.msg)
+            }
+        }).catch(error => {
+            $.each(error.response.data.errors, function(idx, obj) {
+                alert(obj[0]);
+                return false;
+            });
+        })
+    })
+    //注册
+    $('.register').on('click',function () {
+        let mobile = $('input[name=mobile]').val();
+        let code = $('input[name=code]').val();
+        let password = $('input[name=password]').val();
+        let invite_id = '{{$invite_id}}';
+        axios.post("{{route('register.register')}}",{mobile,code,password,invite_id}).then(res => {
+            if(res.data.status == '{{\App\Http\Core\Core::HTTP_SUCCESS_CODE}}'){
+                alert('注册成功');
+                location.href = '{{route('download')}}'
+            }else {
+                alert(res.data.msg)
+            }
+        }).catch(error => {
+            $.each(error.response.data.errors, function(idx, obj) {
+                alert(obj[0]);
+                return false;
+            });
+        })
+    })
+</script>
 </body>
 </html>

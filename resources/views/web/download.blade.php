@@ -44,6 +44,12 @@
         .btn-box {
             padding: .5rem 2rem;
         }
+        .android{
+            display: none;
+        }
+        .ios{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -52,8 +58,18 @@
     <h3 class="text-h3">开始淘您的第一桶金吧</h3>
 </div>
 <div class="btn-box">
-    <a href="javascript:;" class="weui-btn weui-btn_primary">安卓 APP下载</a>
-    <a href="javascript:;" class="weui-btn weui-btn_primary">IOS APP下载</a>
+    <a href="javascript:;" class="weui-btn weui-btn_primary android">安卓 APP下载</a>
+    <a href="javascript:;" class="weui-btn weui-btn_primary ios">IOS APP下载</a>
 </div>
 </body>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if(isAndroid)
+        $('.android').css('display','block');
+    if(isiOS)
+        $('.ios').css('display','block');
+</script>
 </html>
