@@ -28,7 +28,7 @@ class Order extends Model
     //搜索
     public function scopeSearch(Builder $query)
     {
-        $status = request('status');
+        $status = request('status',-2);
         if(in_array($status,[OrderEnum::CANCEL,OrderEnum::PAYED,OrderEnum::POSTED,OrderEnum::FINISH,OrderEnum::PAYING])){
             $query->where('status',$status);
         }
