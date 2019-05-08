@@ -81,7 +81,7 @@ class GoodController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Good);
-        $grid->title('标题')->editable();;
+        $grid->title('商品名称')->editable();;
         $grid->price('价格')->editable();;
         $grid->sales_volume('销量')->editable();;
 //        $states = [
@@ -149,7 +149,7 @@ class GoodController extends Controller
     {
         $form = new Form(new Good);
 
-        $form->text('title', '标题');
+        $form->text('title', '商品名称');
         $form->decimal('price', '价格');
         $form->number('sales_volume', '销量');
         $form->editor('describe', '内容')->placeholder('请输入内容')->rules('required');
