@@ -89,7 +89,7 @@ class GoodController extends Controller
 //            'off' => ['value' => GoodEnum::GOOD_STATUS_FALSE, 'text' => '关闭', 'color' => 'danger'],
 //        ];
 //        $grid->status('状态')->switch($states);
-        $grid->stock('库存')->editable();
+//        $grid->stock('库存')->editable();
         $grid->created_at('创建日期');
         // filter($callback)方法用来设置表格的简单搜索框
 //        $grid->filter(function ($filter) {

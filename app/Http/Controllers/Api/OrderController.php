@@ -116,7 +116,7 @@ class OrderController extends ApiBaseController
         $data['sn'] = makeSn();
         $data['address'] = json_encode(new AddressResource($address));
         $order = Order::create($data);
-        $good->decrement('stock');
+        //$good->decrement('stock');
         $good->increment('sales_volume');
         $good->save();
         return show(Core::HTTP_SUCCESS_CODE,'下单成功',['order_id' => $order->id]);
