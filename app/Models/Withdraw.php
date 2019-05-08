@@ -37,7 +37,7 @@ class Withdraw extends Model
             }
             //提现失败
             if($model->status == WithdrawEnum::INVALID){
-                $model->user->balance =+ $model->cash;
+                $model->user->balance += $model->cash;
                 $model->user->save();
             }
         });
