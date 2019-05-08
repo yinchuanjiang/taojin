@@ -7,7 +7,9 @@ use App\Http\Core\Core;
 use App\Http\Resources\Api\BannerResource;
 use App\Http\Resources\Api\HomeResource;
 use App\Models\Banner;
+use App\Models\Config;
 use App\Models\Enum\BannerEnum;
+use App\Models\Enum\ConfigEnum;
 use App\Models\Enum\HomeEnum;
 use App\Models\Home;
 
@@ -60,7 +62,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $home = new HomeResource(Home::where('status',HomeEnum::NORMAL)->first());
+        $home = new HomeResource(Config::where('name','APP_HOME')->first());
         $banners = BannerResource::collection(Banner::where('status',BannerEnum::NORMAL)->get());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('home','banners'));
     }

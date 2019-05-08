@@ -16,7 +16,7 @@ class HomeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'content' => $this->content
+            'content' => $this->value
         ];
     }
 }

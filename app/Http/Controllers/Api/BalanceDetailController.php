@@ -34,7 +34,8 @@ class BalanceDetailController extends ApiBaseController
      *                      "cash":"金额",
      *                      "created_at":"发生时间",
      *                  }
-     *              ]
+     *              ],
+     *              "balance":"余额"
      *          }
      *     }
      *
@@ -60,6 +61,7 @@ class BalanceDetailController extends ApiBaseController
     {
         $data = BalanceDetail::where('user_id',$this->user->id)->orderBy('id','desc')->paginate($this->limit)->pluck('id')->toArray();
         $details = BalanceDetailResource::collection(BalanceDetail::whereIn('id',$data)->get());
-        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('details'));
+        $balance = $this->user->balance;
+        return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('details','balance'));
     }
 }
