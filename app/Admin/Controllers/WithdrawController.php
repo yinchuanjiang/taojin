@@ -24,8 +24,8 @@ class WithdrawController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('提现管理')
+            ->description('提现申请列表')
             ->body($this->grid());
     }
 
