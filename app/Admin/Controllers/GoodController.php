@@ -81,7 +81,6 @@ class GoodController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Good);
-        $grid->id('Id')->sortable();
         $grid->title('标题')->editable();;
         $grid->price('价格')->editable();;
         $grid->sales_volume('销量')->editable();;
