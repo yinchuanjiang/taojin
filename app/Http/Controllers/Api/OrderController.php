@@ -110,8 +110,6 @@ class OrderController extends ApiBaseController
     public function store(OrderRequest $request,Good $good,Address $address)
     {
         $data = $request->all();
-        if($data['quantity'] > $good->stock)
-            return show(Core::HTTP_ERROR_CODE,'库存不足');
         $data['total'] = $good->price * $data['quantity'];
         $data['user_id'] = $this->user->id;
         $data['good_id'] = $good->id;

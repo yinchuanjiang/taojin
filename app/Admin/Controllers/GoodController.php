@@ -154,7 +154,7 @@ class GoodController extends Controller
         $form->number('sales_volume', '销量');
         $form->editor('describe', '内容')->placeholder('请输入内容')->rules('required');
 //        $form->switch('status', '启用？')->default(GoodEnum::GOOD_STATUS_TRUE);
-        $form->number('stock', '库存');
+//        $form->number('stock', '库存');
         $form->multipleImage('pictures','商品图片')->removable();
         $form->footer(function ($footer) {
             // 去掉`重置`按钮
