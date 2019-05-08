@@ -78,8 +78,7 @@ class PayController extends ApiBaseController
             'subject' => '淘金',
             'out_trade_no' => $order['sn'],
             'notify_url' => route('verify.notify'),
-            //'return_url' => 'http://yansongda.cn/return.php',
-            'total_amount' => '0.01',
+            'total_amount' => $order->total,
             'product_code' => 'QUICK_MSECURITY_PAY'
         ];
         $pay_url = Pay::alipay()->app($payData)->getContent();
