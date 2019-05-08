@@ -6,6 +6,7 @@ use App\Http\Core\Core;
 use App\Models\Enum\OrderEnum;
 use App\Models\Order;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 
 class ExpressController extends ApiBaseController
 {
@@ -66,7 +67,7 @@ class ExpressController extends ApiBaseController
     {
         if($order->status < OrderEnum::POSTED)
             return show(Core::HTTP_ERROR_CODE,'暂未发货，不可查询');
-        $url = 'http://www.kuaidi100.com/query?type=' . $order->express->code . '&postid=' . $order->express_code . '&id=1&valicode=&temp=' . rand(1000,9999) . '&sessionid=&tmp=' . rand(1000,9999);
+        $url = 'http://www.kuaidi100.com/query?type=' . $order->express->code . '&postid=' . $order->express_code . '&id=1&valicode=&temp=' . Str::random(4) . '&sessionid=&tmp=' . Str::random(4);
         $response = $this->http->get($url);
         if($response->getStatusCode() != Core::HTTP_SUCCESS_CODE)
             return show(Core::HTTP_ERROR_CODE,'物流信息查询失败');
