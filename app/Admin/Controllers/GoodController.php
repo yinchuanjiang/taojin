@@ -92,11 +92,11 @@ class GoodController extends Controller
         $grid->stock('库存')->editable();
         $grid->created_at('创建日期');
         // filter($callback)方法用来设置表格的简单搜索框
-        $grid->filter(function ($filter) {
-
-            // 设置created_at字段的范围查询
-            $filter->between('created_at', '创建日期')->datetime();
-        });
+//        $grid->filter(function ($filter) {
+//
+//            // 设置created_at字段的范围查询
+//            $filter->between('created_at', '创建日期')->datetime();
+//        });
         //禁用批量删除
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
@@ -108,6 +108,7 @@ class GoodController extends Controller
             $actions->disableDelete();
             $actions->disableView();
         });
+        $grid->disableFilter();
         //禁用导出数据按钮
         $grid->disableExport();
         $grid->disableCreateButton();
