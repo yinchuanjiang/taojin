@@ -98,8 +98,20 @@ class GoodController extends Controller
             // 设置created_at字段的范围查询
             $filter->between('created_at', '创建日期')->datetime();
         });
+        //禁用批量删除
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+        //关闭行操作 删除
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+            $actions->disableView();
+        });
         //禁用导出数据按钮
         $grid->disableExport();
+        $grid->disableCreateButton();
         //设置分页选择器选项
         $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
