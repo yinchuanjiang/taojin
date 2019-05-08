@@ -98,6 +98,7 @@ class BannerController extends Controller
         });
         //禁用导出数据按钮
         $grid->disableExport();
+        $grid->disableFilter();
         //关闭行操作 删除
         $grid->actions(function ($actions) {
             $actions->disableView();
