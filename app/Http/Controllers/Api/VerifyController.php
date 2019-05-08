@@ -34,11 +34,13 @@ class VerifyController extends Controller
                 $order = Order::where('sn', $data->out_trade_no)->first();
                 if (!$order)
                     die;
+                if($order->status == OrderEnum::PAYED)
+                    die;
                 if ($data->total_amount != $order->total)
                     die;
                 $order->status = OrderEnum::PAYED;
-                $this->distributor($order->user);
                 $order->save();
+                $this->distributor($order->user);
             }
             // 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）；
             // 4、验证app_id是否为该商户本身。
@@ -59,11 +61,22 @@ class VerifyController extends Controller
      */
     public function wxNotify()
     {
-        $pay = Pay::wechat($this->config);
+        $pay = Pay::wechat();
 
         try{
             $data = $pay->verify(); // 是的，验签就这么简单！
-
+            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->mch_id == config('pay.wechat.mch_id')) {
+                $order = Order::where('sn', $data->out_trade_no)->first();
+                if (!$order)
+                    die;
+                if($order->status == OrderEnum::PAYED)
+                    die;
+                if ($data->total_amount != $order->total)
+                    die;
+                $order->status = OrderEnum::PAYED;
+                $order->save();
+                $this->distributor($order->user);
+            }
             Log::debug('Wechat notify', $data->all());
         } catch (\Exception $e) {
             Log::debug('Wechat pay notify error', $e->getMessage());
@@ -96,6 +109,8 @@ class VerifyController extends Controller
             return;
         $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::FIRST_REWARD_TYPE, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
         $inviter->balanceDetails()->save($balanceDetail);
+        $inviter->balance += Core::FIRST_DISTRIBUTOR_MONEY;
+        $inviter->save();
         //二级分销
         if (!$inviter->invite_id)
             return;
@@ -110,14 +125,16 @@ class VerifyController extends Controller
             $allBuyerUnder = $this->getBuyerUnder($allUnderles->underless);
             if(!$allBuyerUnder)
                 continue;
-            count($allBuyerUnder) % 2 == 0 ? $underTeam[] = count($allBuyerUnder) : '';
+            count($allBuyerUnder) % Core::SECOND_DISTRIBUTOR_PEOPLE == 0 ? $underTeam[] = count($allBuyerUnder) : '';
         }
         if(!$underTeam)
             return;
-        if(array_sum($underTeam) % 4 != 0)
+        if(array_sum($underTeam) % (Core::SECOND_DISTRIBUTOR_PEOPLE * 2) != 0)
             return;
         $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::SECONE_REWARD_TYPE, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
-        $inviter->balanceDetails()->save($balanceDetail);
+        $topInviter->balanceDetails()->save($balanceDetail);
+        $topInviter->balance += Core::SECOND_DISTRIBUTOR_MONEY;
+        $topInviter->save();
     }
 
     //获取我的购买的下级
