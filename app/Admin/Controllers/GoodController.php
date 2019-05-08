@@ -24,8 +24,8 @@ class GoodController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('商品管理')
+            ->description('商品列表')
             ->body($this->grid());
     }
 
@@ -54,8 +54,8 @@ class GoodController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('编辑')
-            ->description('description')
+            ->header('商品管理')
+            ->description('商品编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -68,8 +68,8 @@ class GoodController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('新建')
-            ->description('description')
+            ->header('商品管理')
+            ->description('添加商品')
             ->body($this->form());
     }
 
@@ -168,6 +168,10 @@ class GoodController extends Controller
             // 去掉`继续创建`checkbox
             $footer->disableCreatingCheck();
 
+        });
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableView();
+            $tools->disableDelete();
         });
         return $form;
     }

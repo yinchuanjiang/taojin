@@ -98,6 +98,10 @@ class BannerController extends Controller
         });
         //禁用导出数据按钮
         $grid->disableExport();
+        //关闭行操作 删除
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+        });
         //设置分页选择器选项
         $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;

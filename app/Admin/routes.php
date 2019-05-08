@@ -14,7 +14,6 @@ Route::group([
     });
     $router->resource('banners', BannerController::class);
     $router->resource('goods', GoodController::class);
-    $router->resource('good-images', GoodImgController::class);
     $router->resource('orders', OrderController::class);
     $router->resource('users', UserController::class);
     $router->resource('withdraws', WithdrawController::class);
