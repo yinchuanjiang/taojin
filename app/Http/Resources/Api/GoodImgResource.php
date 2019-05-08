@@ -15,7 +15,7 @@ class GoodImgResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'img_url' => $this->img_url,
+            'img_url' => config('app.url').'/uploads/'.$this->img_url,
         ];
     }
 }
