@@ -85,11 +85,11 @@ class GoodController extends Controller
         $grid->title('标题')->editable();;
         $grid->price('价格')->editable();;
         $grid->sales_volume('销量')->editable();;
-        $states = [
-            'on'  => ['value' => GoodEnum::GOOD_STATUS_TRUE, 'text' => '启用', 'color' => 'success'],
-            'off' => ['value' => GoodEnum::GOOD_STATUS_FALSE, 'text' => '关闭', 'color' => 'danger'],
-        ];
-        $grid->status('状态')->switch($states);
+//        $states = [
+//            'on'  => ['value' => GoodEnum::GOOD_STATUS_TRUE, 'text' => '启用', 'color' => 'success'],
+//            'off' => ['value' => GoodEnum::GOOD_STATUS_FALSE, 'text' => '关闭', 'color' => 'danger'],
+//        ];
+//        $grid->status('状态')->switch($states);
         $grid->stock('库存')->editable();
         $grid->created_at('创建日期');
         // filter($callback)方法用来设置表格的简单搜索框
@@ -153,7 +153,7 @@ class GoodController extends Controller
         $form->decimal('price', '价格');
         $form->number('sales_volume', '销量');
         $form->editor('describe', '内容')->placeholder('请输入内容')->rules('required');
-        $form->switch('status', '启用？')->default(GoodEnum::GOOD_STATUS_TRUE);
+//        $form->switch('status', '启用？')->default(GoodEnum::GOOD_STATUS_TRUE);
         $form->number('stock', '库存');
         $form->multipleImage('pictures','商品图片')->removable();
         $form->footer(function ($footer) {
