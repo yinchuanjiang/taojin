@@ -19,7 +19,7 @@ class BalanceDetailResource extends JsonResource
             'id' => $this->id,
             'type' => BalanceDetailEnum::getStatusName($this->type),
             'cash' => $this->cash,
-            'created_at' => $this->created_at,
+            'created_at' => (string) $this->created_at,
         ];
     }
 }
