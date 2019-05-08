@@ -65,6 +65,8 @@ class GoodController extends Controller
     public function index()
     {
         $good = new GoodResource(Good::where('status',GoodEnum::NORMAL)->first());
+        if(!$good)
+            return show(Core::HTTP_ERROR_CODE,'数据异常');
         $address = [];
         $user = request()->user('api');
         if($user && $user->address->count())
