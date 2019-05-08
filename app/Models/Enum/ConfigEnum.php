@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
  */
 class ConfigEnum{
     //系统配置转意
+    const APP_HOME = '首页';
     const COMPANY_TEL = '客服电话';
     const COMPANY_HELP = '客服文案';
     const COMPANY_ABOUT_US = '关于我们';
@@ -19,6 +20,9 @@ class ConfigEnum{
     public static function get($key)
     {
         switch ($key){
+            case 'APP_HOME':
+                $value = '首页';
+                break;
             case 'COMPANY_TEL':
                 $value = '客服电话';
                 break;
