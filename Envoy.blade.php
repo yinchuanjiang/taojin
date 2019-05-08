@@ -6,5 +6,5 @@ cd /www/wwwroot/taojin
 git pull origin master
 composer install --no-dev
 php artisan migrate --force
-chown -R www-data:www-data /var/www/taojin/
+chown -R www:www /var/www/taojin/
 @endtask

@@ -68,7 +68,7 @@ class GoodController extends Controller
         $address = [];
         $user = request()->user('api');
         if($user && $user->address->count())
-            $address = new AddressResource(Address::where('user_id',$this->user->id)->first());
+            $address = new AddressResource(Address::where('user_id',$user->id)->first());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('good','address'));
     }
 }
