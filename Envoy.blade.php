@@ -3,8 +3,9 @@
 @task('deploy', ['on' => ['web'], 'parallel' => true])
 cd /www/wwwroot/taojin
 {{--git pull origin {{ $branch }}--}}
+git reset --hard
 git pull origin master
 composer install --no-dev
-php artisan migrate --force
-chown -R www:www /var/www/taojin/
+{{--php artisan migrate --force--}}
+chown -R www:www /www/wwwroot/taojin/
 @endtask

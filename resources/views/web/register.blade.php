@@ -67,6 +67,14 @@
             width: 2.4rem;
             background: transparent;
         }
+        .weui-label {
+            width: 1.8rem;
+        }
+        @media only screen and (min-width: 414px) {
+            html {
+                font-size: 50px!important;
+            }
+        }
     </style>
 </head>
 <body>

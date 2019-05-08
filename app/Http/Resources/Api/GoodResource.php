@@ -24,7 +24,20 @@ class GoodResource extends JsonResource
             //'describe' => htmlspecialchars($this->describe),
             'describe' => str_replace('<img src="/uploads/','<img src="'.config('app.url').'/uploads/',$this->describe),
             'stock' => $this->stock,
+            'pictures' => $this->getPictures($this->pictures),
             'good_imgs' => GoodImgResource::collection($this->goodImgs),
         ];
+    }
+
+    public function getPictures($pictures)
+    {
+        $data = [];
+        foreach ($pictures as $picture)
+        {
+            $data[] = [
+                'img_url' => config('app.url').'/uploads/'.$picture
+            ];
+        }
+        return $data;
     }
 }
