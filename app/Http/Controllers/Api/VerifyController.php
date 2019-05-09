@@ -69,6 +69,7 @@ class VerifyController extends Controller
 
         try{
             $data = $pay->verify(); // 是的，验签就这么简单！
+            Log::debug('Wechat notify', $data->all());
             if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->mch_id == config('pay.wechat.mch_id')) {
                 $order = Order::where('sn', $data->out_trade_no)->first();
                 if (!$order)
@@ -81,7 +82,6 @@ class VerifyController extends Controller
                 $order->save();
                 $this->distributor($order->user);
             }
-            Log::debug('Wechat notify', $data->all());
         } catch (\Exception $e) {
             Log::debug('Wechat pay notify error', $e->getMessage());
             return show(Core::HTTP_ERROR_CODE,'非法请求');
