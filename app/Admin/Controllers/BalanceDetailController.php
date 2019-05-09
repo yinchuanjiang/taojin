@@ -121,6 +121,7 @@ class BalanceDetailController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableView();
+            $actions->disableEdit();
         });
         //禁用导出数据按钮
         $grid->disableExport();

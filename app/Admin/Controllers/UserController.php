@@ -85,14 +85,10 @@ class UserController extends Controller
 
         $grid->mobile('手机号');
         $grid->inviter()->mobile('邀请者')->display(function ($mobile){
-            return "<span class='label label-success'>".$mobile."</span>";
+            return "<span class='label label-info'>".$mobile."</span>";
         });
-        $grid->balance('余额')->expand(function ($model){
-            $details = $model->balanceDetails()->get()->map(function ($detail) {
-                 $detail->type = BalanceDetailEnum::getStatusName($detail->type);
-                 return $detail->only(['id', 'type', 'cash','before_balance','after_balance','created_at']);
-            });
-            return new Table(['ID', '类型', '金额','发生前金额','发生后金额','发生时间'], $details->toArray());
+        $grid->balance('余额')->display(function (){
+            return "<a href='/admin/balance-details?032c4d992253e992bf713c4f1a9446d5={$this->mobile}' class='label label-success'>".$this->balance."</a>";
         });
         $grid->column('column_not_in_table','我的团队')->modal('我的团队',function ($model){
             $underlessData = [];
