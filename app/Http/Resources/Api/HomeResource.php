@@ -16,7 +16,7 @@ class HomeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'content' => $this->value
+            'content' => str_replace('src="/uploads','src="'.config('app.url').'/uploads',$this->value)
         ];
     }
 }
