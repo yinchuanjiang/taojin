@@ -81,6 +81,7 @@ class WithdrawController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Withdraw);
+        $grid->model()->orderBy('id','desc');
         $grid->id('Id');
         $grid->user()->mobile('手机号');
         $grid->cash('提现金额');

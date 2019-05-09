@@ -97,14 +97,16 @@ class VerifyController extends Controller
         DB::beginTransaction();
         try {
             //一级助攻
-            $inviter = $this->firstAssist($buyer);
+            $this->firstAssist($buyer);
             //二级助攻
+            /** @var User $inviter */
+            $inviter = $buyer->inviter;
             $this->secondAssist($inviter, $buyer);
         }catch (Exception $exception){
             DB::rollBack();
             dd($exception->getMessage());
         }
-        //DB::commit();
+        DB::commit();
     }
 
     //获取我的购买的下级
@@ -156,7 +158,6 @@ class VerifyController extends Controller
         $inviter->balanceDetails()->save($balanceDetail);
         $inviter->balance += Core::FIRST_DISTRIBUTOR_MONEY;
         $inviter->save();
-        return $inviter;
     }
 
     protected function secondAssist($inviter,$buyer)
@@ -200,7 +201,6 @@ class VerifyController extends Controller
                 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY,
                 'remark' => $remark
             ]);
-        dd($balanceDetail);
         $topInviter->balanceDetails()->save($balanceDetail);
         $topInviter->balance += Core::SECOND_DISTRIBUTOR_MONEY;
         $topInviter->save();
@@ -209,7 +209,7 @@ class VerifyController extends Controller
 
     public function test()
     {
-        $user = User::find(23);
+        $user = User::find(28);
         $this->distributor($user);
     }
 }

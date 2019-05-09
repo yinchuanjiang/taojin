@@ -60,7 +60,7 @@ class BalanceDetailController extends ApiBaseController
     public function index()
     {
         $data = BalanceDetail::where('user_id',$this->user->id)->orderBy('id','desc')->paginate($this->limit)->pluck('id')->toArray();
-        $details = BalanceDetailResource::collection(BalanceDetail::whereIn('id',$data)->get());
+        $details = BalanceDetailResource::collection(BalanceDetail::whereIn('id',$data)->orderBy('id','desc')->get());
         $balance = $this->user->balance;
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('details','balance'));
     }
