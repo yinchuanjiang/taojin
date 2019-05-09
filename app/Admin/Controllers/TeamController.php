@@ -2,6 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Enum\OrderEnum;
+use App\Models\Enum\UserEnum;
+use App\Models\Order;
 use App\Models\User;
 
 use Encore\Admin\Form;
@@ -34,11 +37,8 @@ class TeamController extends Controller
             $content->description('团队列表');
 
             $content->row(function (Row $row) {
-                $row->column(12, $this->treeView()->render());
+                $row->column(12, str_replace('<span class="pull-right dd-nodrag">','<span class="pull-right dd-nodrag" style="display: none">',$this->treeView()->render()));
             });
-
-
-
         });
     }
 
@@ -46,9 +46,32 @@ class TeamController extends Controller
     protected function treeView()
     {
         return User::tree(function (Tree $tree) {
+            if(request('mobile')) {
+                $tree->query(function ($model) {
+                    /** @var User $user */
+                    $user = $model->where('mobile',request('mobile'))->first();
+                    if($user) {
+                        $undeless = $user->underless()->pluck('id')->toArray();
+                        $undeless[] = $user->id;
+                        return $model->whereIn('invite_id', $undeless)->orWhere('id',$user->id);
+                    }
+                });
+            }
             $tree->disableCreate();
             $tree->disableSave();
-            return $tree;
+            $tree->branch(function ($branch) {
+                $first_assist = '<span style="color: red">一级奖励未触发</span>';
+                if($branch['first_assist'] == UserEnum::FIRST_ASSIST_TRUE)
+                    $first_assist = '<span style="color: green">一级奖励已触发('.$branch['first_assist_at'].')</span>';
+                $second_assist = '<span style="color: red">二级奖励未触发</span>';
+                if($branch['second_assist'] == UserEnum::SECOND_ASSIST_TRUE)
+                    $second_assist = '<span style="color: green">二级奖励已触发('.$branch['second_assist_at'].')</span>';
+                $order = Order::where('user_id',$branch['id'])->where('status','>=',OrderEnum::PAYED)->count();
+                $is_buye = '<span style="color: red">未购物</span>';
+                if($order)
+                    $is_buye = '<span style="color: green">已购物</span>';
+                return "{$branch['mobile']} - {$is_buye} - {$first_assist} - {$second_assist}";
+            });
         });
     }
 

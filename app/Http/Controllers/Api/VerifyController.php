@@ -10,6 +10,7 @@ use App\Models\Enum\OrderEnum;
 use App\Models\Enum\UserEnum;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use League\Flysystem\Exception;
@@ -146,6 +147,7 @@ class VerifyController extends Controller
         foreach ($buyerUnder as $item) {
             $remark .= $item->mobile.',';
             $item->first_assist = UserEnum::FIRST_ASSIST_TRUE;
+            $item->first_assist_at = Carbon::now();
             $item->save();
         }
         $balanceDetail = new BalanceDetail([
@@ -191,6 +193,7 @@ class VerifyController extends Controller
             foreach ($teams as $team){
                 $remark .= $team->mobile.',';
                 $team->second_assist = UserEnum::SECOND_ASSIST_TRUE;
+                $team->second_assist_at = Carbon::now();
                 $team->save();
             }
         }
