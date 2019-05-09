@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('wx_oauth')->unique()->nullable()->comment('微信登录凭证');
             $table->unsignedInteger('visitor_id')->nullable()->comment('邀请人id');
             $table->decimal('balance',10,2)->default(0.00)->comment('余额');
+            $table->tinyInteger('first_assist',1)->default(\App\Models\Enum\UserEnum::FIRST_ASSIST_FALSE)->comment('一级奖励助攻');
+            $table->tinyInteger('second_assist',1)->default(\App\Models\Enum\UserEnum::SECOND_ASSIST_FALSE)->comment('二级奖励助攻');
             $table->timestamps();
             $table->engine = 'myisam';
         });

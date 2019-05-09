@@ -7,9 +7,12 @@ use App\Http\Core\Core;
 use App\Models\BalanceDetail;
 use App\Models\Enum\BalanceDetailEnum;
 use App\Models\Enum\OrderEnum;
+use App\Models\Enum\UserEnum;
 use App\Models\Order;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use League\Flysystem\Exception;
 use Yansongda\LaravelPay\Facades\Pay;
 
 class VerifyController extends Controller
@@ -35,7 +38,7 @@ class VerifyController extends Controller
                 $order = Order::where('sn', $data->out_trade_no)->first();
                 if (!$order)
                     die;
-                if($order->status == OrderEnum::PAYED)
+                if($order->status >= OrderEnum::PAYED)
                     die;
                 if ($data->total_amount != $order->total)
                     die;
@@ -69,7 +72,7 @@ class VerifyController extends Controller
                 $order = Order::where('sn', $data->out_trade_no)->first();
                 if (!$order)
                     die;
-                if($order->status == OrderEnum::PAYED)
+                if($order->status >= OrderEnum::PAYED)
                     die;
                 if ($data->total_amount != $order->total)
                     die;
@@ -89,12 +92,41 @@ class VerifyController extends Controller
      */
     public function distributor(User $buyer)
     {
-        if(!Core::DISTRIBUTOR_STATUS)
-            return;
-        $orders = $buyer->orders()->where('status','>=', OrderEnum::PAYED)->get();
-        if (count($orders) > 1)
-            return;
         if (!$buyer->invite_id)
+            return;
+        DB::beginTransaction();
+        try {
+            //一级助攻
+            $inviter = $this->firstAssist($buyer);
+            //二级助攻
+            $this->secondAssist($inviter, $buyer);
+        }catch (Exception $exception){
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+        //DB::commit();
+    }
+
+    //获取我的购买的下级
+    /**
+     * @param $underless
+     * @return array
+     */
+    public function getBuyerUnder($underless)
+    {
+        $data = [];
+        foreach ($underless as $underles){
+            $order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
+            if($order && ($underles->first_assist == UserEnum::FIRST_ASSIST_FALSE || $underles->second_assist == UserEnum::SECOND_ASSIST_FALSE))
+                $data[] = $underles;
+        }
+        return $data;
+    }
+
+    //一级分销奖励发放
+    public function firstAssist($buyer)
+    {
+        if($buyer->first_assist == UserEnum::FIRST_ASSIST_TRUE)
             return;
         /** @var User $inviter */
         $inviter = $buyer->inviter;
@@ -107,11 +139,29 @@ class VerifyController extends Controller
             return;
         if(count($buyerUnder) % 2 != 0)
             return;
-        $balanceDetail = new BalanceDetail(['cash' => Core::FIRST_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::FIRST_REWARD_TYPE, 'before_balance' => $inviter->balance, 'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY]);
+        $remark = '一级奖励，下级购买触发，下级人员：';
+        foreach ($buyerUnder as $item) {
+            $remark .= $item->mobile.',';
+            $item->first_assist = UserEnum::FIRST_ASSIST_TRUE;
+            $item->save();
+        }
+        $balanceDetail = new BalanceDetail([
+            'cash' => Core::FIRST_DISTRIBUTOR_MONEY,
+            'type' => BalanceDetailEnum::FIRST_REWARD_TYPE,
+            'before_balance' => $inviter->balance,
+            'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY
+        ]);
         $inviter->balanceDetails()->save($balanceDetail);
         $inviter->balance += Core::FIRST_DISTRIBUTOR_MONEY;
         $inviter->save();
+        return $inviter;
+    }
+
+    protected function secondAssist($inviter,$buyer)
+    {
         //二级分销
+        if($buyer->second_assist == UserEnum::SECOND_ASSIST_TRUE)
+            return;
         if (!$inviter->invite_id)
             return;
         $topInviter = $inviter->inviter;
@@ -126,37 +176,37 @@ class VerifyController extends Controller
             if(!$allBuyerUnder)
                 continue;
             count($allBuyerUnder) % Core::SECOND_DISTRIBUTOR_PEOPLE == 0 ? $underTeam[] = count($allBuyerUnder) : '';
+            if(count($underTeam) == Core::SECOND_DISTRIBUTOR_PEOPLE)
+                break;
         }
         if(!$underTeam)
             return;
-        if(array_sum($underTeam) % (Core::SECOND_DISTRIBUTOR_PEOPLE * 2) != 0)
+        if(count($underTeam) % Core::SECOND_DISTRIBUTOR_PEOPLE != 0)
             return;
-        $balanceDetail = new BalanceDetail(['cash' => Core::SECOND_DISTRIBUTOR_MONEY, 'type' => BalanceDetailEnum::SECONE_REWARD_TYPE, 'before_balance' => $topInviter->balance, 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY]);
+        $remark = '二级奖励，下级购买触发，下级人员：';
+        foreach ($underTeam as $teams){
+            foreach ($teams as $team){
+                $remark .= $team->mobile.',';
+                $team->second_assist = UserEnum::SECOND_ASSIST_TRUE;
+                $team->save();
+            }
+        }
+        $balanceDetail = new BalanceDetail([
+                'cash' => Core::SECOND_DISTRIBUTOR_MONEY,
+                'type' => BalanceDetailEnum::SECONE_REWARD_TYPE,
+                'before_balance' => $topInviter->balance,
+                'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY,
+                'remark' => $remark
+            ]);
         $topInviter->balanceDetails()->save($balanceDetail);
         $topInviter->balance += Core::SECOND_DISTRIBUTOR_MONEY;
         $topInviter->save();
     }
 
-    //获取我的购买的下级
-    /**
-     * @param $underless
-     * @return array
-     */
-    public function getBuyerUnder($underless)
-    {
-        $data = [];
-        foreach ($underless as $underles){
-            $order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
-            if($order)
-                $data[] = $underles->id;
-        }
-        return $data;
-    }
-
 
     public function test()
     {
-        $user = User::find(12);
+        $user = User::find(19);
         $this->distributor($user);
     }
 }

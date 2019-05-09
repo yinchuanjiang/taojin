@@ -20,6 +20,7 @@ class CreateBlanceDetailsTable extends Migration
             $table->decimal('cash',10,2)->comment('金额');
             $table->decimal('before_balance',10,2)->comment('变动前余额')->default(0.00);
             $table->decimal('after_balance',10,2)->comment('变动后余额')->default(0.00);
+            $table->text('remark')->nullable()->comment('备注');
             $table->timestamps();
         });
     }
