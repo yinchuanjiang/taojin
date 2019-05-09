@@ -119,8 +119,7 @@ class VerifyController extends Controller
     {
         $data = [];
         foreach ($underless as $underles){
-            //$order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
-            $order = true;
+            $order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
             if($order && ($underles->first_assist == UserEnum::FIRST_ASSIST_FALSE || $underles->second_assist == UserEnum::SECOND_ASSIST_FALSE))
                 $data[] = $underles;
         }

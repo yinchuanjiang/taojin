@@ -150,7 +150,7 @@ class ConfigController extends Controller
             $form->text('url', '下载地址')->rules('required');
             $form->textarea('value', '版本说明')->placeholder('请输入内容')->rules('required');
         }else if($type == 'config'){
-            $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
+            $form->weditor('value', '配置值')->placeholder('请输入内容')->rules('required');
         }else{
             $form->textarea('value', '配置值')->placeholder('请输入内容')->rules('required');
         }
