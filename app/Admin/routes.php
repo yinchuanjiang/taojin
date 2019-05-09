@@ -18,4 +18,5 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('withdraws', WithdrawController::class);
     $router->resource('configs', ConfigController::class);
+    $router->resource('balance-details', BalanceDetailController::class);
 });
