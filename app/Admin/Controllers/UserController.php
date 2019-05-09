@@ -109,7 +109,7 @@ class UserController extends Controller
         //关闭行操作 删除
         $grid->actions(function ($actions) {
             // append一个操作
-            $actions->append("<a href='/admin/teams?id={$actions->row->id}'><i class='fa fa-user'></i>查看团队</a>");
+            $actions->append("<a href='/admin/teams?id={$actions->row->id}'><i class='fa fa-users'></i>查看团队</a>");
             $actions->disableDelete();
             $actions->disableView();
             $actions->disableEdit();
