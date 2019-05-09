@@ -90,18 +90,6 @@ class UserController extends Controller
         $grid->balance('余额')->display(function (){
             return "<a href='/admin/balance-details?032c4d992253e992bf713c4f1a9446d5={$this->mobile}' class='label label-success'>".$this->balance."</a>";
         });
-        $grid->column('column_not_in_table','我的团队')->modal('我的团队',function ($model){
-            $underlessData = [];
-            $underless = $model->underless()->get();
-            foreach ($underless as $underles){
-                $underlessData[] = ['id' => $underles->id,'mobile'=>$underles->mobile,'type'=>'一级'];
-                if($underles->underless)
-                    foreach ($underles->underless as $underle){
-                        $underlessData[] = ['id' => $underle->id,'mobile'=>$underle->mobile,'type'=>'二级'];;
-                    }
-            }
-            return new Table(['ID', '手机号','类型'], $underlessData);
-        });
         $grid->created_at('注册时间');
 
         $grid->filter(function ($filter) {
@@ -120,6 +108,8 @@ class UserController extends Controller
         });
         //关闭行操作 删除
         $grid->actions(function ($actions) {
+            // append一个操作
+            $actions->append("<a href='/admin/teams?id={$actions->row->id}'><i class='fa fa-user'></i>查看团队</a>");
             $actions->disableDelete();
             $actions->disableView();
             $actions->disableEdit();

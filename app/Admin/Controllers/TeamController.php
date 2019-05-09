@@ -46,10 +46,10 @@ class TeamController extends Controller
     protected function treeView()
     {
         return User::tree(function (Tree $tree) {
-            if(request('mobile')) {
+            if(request('id')) {
                 $tree->query(function ($model) {
                     /** @var User $user */
-                    $user = $model->where('mobile',request('mobile'))->first();
+                    $user = $model->find(request('id'));
                     if($user) {
                         $undeless = $user->underless()->pluck('id')->toArray();
                         $undeless[] = $user->id;
