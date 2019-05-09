@@ -116,7 +116,8 @@ class VerifyController extends Controller
     {
         $data = [];
         foreach ($underless as $underles){
-            $order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
+            //$order = Order::where('user_id',$underles->id)->where('status','>=',OrderEnum::PAYED)->first();
+            $order = true;
             if($order && ($underles->first_assist == UserEnum::FIRST_ASSIST_FALSE || $underles->second_assist == UserEnum::SECOND_ASSIST_FALSE))
                 $data[] = $underles;
         }
@@ -149,7 +150,8 @@ class VerifyController extends Controller
             'cash' => Core::FIRST_DISTRIBUTOR_MONEY,
             'type' => BalanceDetailEnum::FIRST_REWARD_TYPE,
             'before_balance' => $inviter->balance,
-            'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY
+            'after_balance' => $inviter->balance + Core::FIRST_DISTRIBUTOR_MONEY,
+            'remark' => $remark
         ]);
         $inviter->balanceDetails()->save($balanceDetail);
         $inviter->balance += Core::FIRST_DISTRIBUTOR_MONEY;
@@ -175,7 +177,7 @@ class VerifyController extends Controller
             $allBuyerUnder = $this->getBuyerUnder($allUnderles->underless);
             if(!$allBuyerUnder)
                 continue;
-            count($allBuyerUnder) % Core::SECOND_DISTRIBUTOR_PEOPLE == 0 ? $underTeam[] = count($allBuyerUnder) : '';
+            count($allBuyerUnder) % Core::SECOND_DISTRIBUTOR_PEOPLE == 0 ? $underTeam[] = $allBuyerUnder : '';
             if(count($underTeam) == Core::SECOND_DISTRIBUTOR_PEOPLE)
                 break;
         }
@@ -198,6 +200,7 @@ class VerifyController extends Controller
                 'after_balance' => $topInviter->balance + Core::SECOND_DISTRIBUTOR_MONEY,
                 'remark' => $remark
             ]);
+        dd($balanceDetail);
         $topInviter->balanceDetails()->save($balanceDetail);
         $topInviter->balance += Core::SECOND_DISTRIBUTOR_MONEY;
         $topInviter->save();
@@ -206,7 +209,7 @@ class VerifyController extends Controller
 
     public function test()
     {
-        $user = User::find(19);
+        $user = User::find(23);
         $this->distributor($user);
     }
 }

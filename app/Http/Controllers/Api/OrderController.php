@@ -242,4 +242,51 @@ class OrderController extends ApiBaseController
         $order->save();
         return show(Core::HTTP_SUCCESS_CODE,'收货成功');
     }
+
+    //取消订单
+    /**
+     * @api {POST} order/cancel/:id 取消订单
+     * @apiSampleRequest order/cancel/:id
+     * @apiHeader {String} authorization Authorization value.
+     * @apiPermission 无
+     * @apiName cancel
+     * @apiGroup F-Order
+     * @apiVersion 1.0.0
+     * @apiDescription   api   取消订单
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *          "status":"200",
+     *          "msg":"取消成功",
+     *          "data":[]
+     *     }
+     *
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 422 Not Found  422错误提示,请使用ajax异常扑获取
+     *      {
+     *          "message": "The given data was invalid.",
+     *              "errors": {
+     *                   "type": [
+     *                       "type 不能为空。"
+     *                   ]
+     *               }
+     *            }
+     * @apiErrorExample Error-Response:
+     *      {
+     *          "status":"400",
+     *          "msg":"错误提示",
+     *          "data":[]
+     *      }
+     */
+    public function cancel(Order $order)
+    {
+        if($order->user_id != $this->user->id)
+            return show(Core::HTTP_ERROR_CODE,'非法操作');
+        if($order->status >= OrderEnum::PAYED)
+            return show(Core::HTTP_ERROR_CODE,'非法操作,改状态下订单不能取消');
+        $order->status = OrderEnum::CANCEL;
+        $order->save();
+        return show(Core::HTTP_SUCCESS_CODE,'取消成功');
+    }
 }
