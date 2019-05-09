@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Taojin</b> admin',
+    'logo' => '<img src="'.env('APP_URL').'/logo.jpg" alt="Taojin logo">',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>Tj</b>',
+    'logo-mini' => '<img src="'.env('APP_URL').'/logo.jpg" alt="Taojin logo">',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => '淘金',
 
     /*
     |--------------------------------------------------------------------------
