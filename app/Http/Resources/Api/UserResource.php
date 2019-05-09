@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'mobile' => ($this->mobile),
+            'mobile' => substr_replace($this->mobile,'****',3,4),
             'avatar' =>$this->avatar,
             'balance' => $this->balance,
         ];
