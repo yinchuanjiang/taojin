@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="'.env('APP_URL').'/logo.jpg" alt="Taojin logo">',
+    'logo' => '<b>淘金</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<img src="'.env('APP_URL').'/logo.jpg" alt="Taojin logo">',
+    'logo-mini' => '<b>淘金</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -188,6 +188,7 @@ return [
         // Menu table and model.
         'menu_table' => 'admin_menu',
         'menu_model' => Encore\Admin\Auth\Database\Menu::class,
+
 
         // Pivot table for table above.
         'operation_log_table'    => 'admin_operation_log',

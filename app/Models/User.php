@@ -5,12 +5,23 @@ namespace App\Models;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, ModelTree, AdminBuilder;
 
     protected $guarded = [];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setParentColumn('invite_id');
+        $this->setOrderColumn('id');
+        $this->setTitleColumn('mobile');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
