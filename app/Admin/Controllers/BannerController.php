@@ -82,7 +82,7 @@ class BannerController extends Controller
     {
         $grid = new Grid(new Banner);
         $grid->id('ID')->sortable();
-        $grid->img_url('图片')->image('',100);
+        $grid->img_url('图片')->image('',50);
         // 设置text、color、和存储值
         $states = [
             'on'  => ['value' => BannerEnum::BANNER_STATUS_TRUE, 'text' => '启用', 'color' => 'success'],

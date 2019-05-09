@@ -89,10 +89,6 @@ class OrderController extends Controller
             $name = User::find($userId)->mobile;
             return "<span class='label label-info'>{$name}</span>";
         });
-        $grid->good_id('商品')->display(function ($goodId){
-            $name = Good::find($goodId)->title;
-            return "<span class='label label-info'>{$name}</span>";
-        });
         $grid->sn('订单号');
         $grid->quantity('数量');
         $grid->total('总金额');

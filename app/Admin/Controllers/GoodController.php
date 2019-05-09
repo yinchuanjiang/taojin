@@ -112,6 +112,7 @@ class GoodController extends Controller
         //禁用导出数据按钮
         $grid->disableExport();
         $grid->disableCreateButton();
+        $grid->disableRowSelector();
         //设置分页选择器选项
         $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
@@ -167,6 +168,7 @@ class GoodController extends Controller
             $footer->disableEditingCheck();
             // 去掉`继续创建`checkbox
             $footer->disableCreatingCheck();
+
 
         });
         $form->tools(function (Form\Tools $tools) {
