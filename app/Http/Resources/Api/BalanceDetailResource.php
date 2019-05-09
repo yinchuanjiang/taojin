@@ -18,7 +18,7 @@ class BalanceDetailResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => BalanceDetailEnum::getStatusName($this->type),
-            'cash' => $this->cash,
+            'cash' => (in_array($this->type,[BalanceDetailEnum::WITHDRAW_CASH_FAIL]) ? '-':'+'). $this->cash,
             'created_at' => (string) $this->created_at,
         ];
     }
