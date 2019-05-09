@@ -65,7 +65,7 @@ class OrderController extends ApiBaseController
     public function index()
     {
         $data = Order::where('user_id',$this->user->id)->search()->paginate($this->limit)->pluck('id')->toArray();
-        $orders = OrderResource::collection(Order::whereIn('id',$data)->get());
+        $orders = OrderResource::collection(Order::whereIn('id',$data)->orderBy('id','desc')->get());
         return show(Core::HTTP_SUCCESS_CODE,'获取成功',compact('orders'));
     }
     //下单

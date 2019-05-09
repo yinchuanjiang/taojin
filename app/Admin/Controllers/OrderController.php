@@ -148,6 +148,7 @@ class OrderController extends Controller
         //禁用导出数据按钮
         $grid->disableExport();
         $grid->disableCreateButton();
+        $grid->disableRowSelector();
         //设置分页选择器选项
         $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
