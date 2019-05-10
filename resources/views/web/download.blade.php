@@ -58,7 +58,7 @@
     <h3 class="text-h3">开始淘您的第一桶金吧</h3>
 </div>
 <div class="btn-box">
-    <a href="javascript:;" class="weui-btn weui-btn_primary android">安卓 APP下载</a>
+    <a href="/taojin.apk" class="weui-btn weui-btn_primary android">安卓 APP下载</a>
     <a href="javascript:;" class="weui-btn weui-btn_primary ios">IOS APP下载</a>
 </div>
 </body>
