@@ -76,7 +76,7 @@ class VerifyController extends Controller
                     die;
                 if($order->status >= OrderEnum::PAYED)
                     die;
-                if ($data->total_amount != $order->total*100)
+                if ($data->cash_fee != $order->total * 100)
                     die;
                 $order->status = OrderEnum::PAYED;
                 $order->save();
