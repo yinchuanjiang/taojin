@@ -45,6 +45,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/pay/notify','VerifyController@notify')->name('verify.notify');
     Route::post('/pay/wx-notify','VerifyController@wxNotify')->name('verify.wx-notify');
     Route::get('/test','VerifyController@test')->name('verify.test');
+    //自动取消订单
+    Route::any('/task/cancel-order','TaskController@cancelOrder')->name('task.cancel-order');
     //需要登录才能访问的接口
     Route::group(['middleware' => ['auth:api']], function () {
         //地址数据
