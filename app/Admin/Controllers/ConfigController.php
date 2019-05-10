@@ -114,6 +114,7 @@ class ConfigController extends Controller
         //禁用导出数据按钮
         $grid->disableExport();
         $grid->disableCreateButton();
+        $grid->disableRowSelector();
         $grid->perPages([10, 20, 30, 40, 50]);
         return $grid;
     }
