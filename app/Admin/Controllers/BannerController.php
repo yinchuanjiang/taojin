@@ -135,7 +135,7 @@ class BannerController extends Controller
     protected function form()
     {
         $form = new Form(new Banner);
-        $form->image('img_url', '上传图片')->uniqueName()->removable();
+        $form->image('img_url', '上传图片')->uniqueName()->removable()->help('建议图片长宽比 5:3');;
         $form->switch('status', '启用？')->default(BannerEnum::BANNER_STATUS_TRUE);
         $form->footer(function ($footer) {
             // 去掉`重置`按钮
