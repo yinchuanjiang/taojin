@@ -54,7 +54,7 @@ class ConfigController extends Controller
     public function edit($id, Content $content)
     {
         $config = Config::find($id);
-        if(in_array($config->name,['APP_HOME','USER_AGREEMENT'])){
+        if(in_array($config->name,['USER_AGREEMENT'])){
             return $content
                 ->header('Edit')
                 ->description('description')
@@ -64,6 +64,11 @@ class ConfigController extends Controller
                 ->header('Edit')
                 ->description('description')
                 ->body($this->form('version')->edit($id));
+        }else if(in_array($config->name,['APP_HOME'])){
+            return $content
+                ->header('Edit')
+                ->description('description')
+                ->body($this->form('home')->edit($id));
         }else{
             return $content
                 ->header('Edit')
@@ -152,6 +157,8 @@ class ConfigController extends Controller
             $form->textarea('value', '版本说明')->placeholder('请输入内容')->rules('required');
         }else if($type == 'config'){
             $form->weditor('value', '配置值')->placeholder('请输入内容')->rules('required');
+        }else if($type == 'home'){
+            $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
         }else{
             $form->textarea('value', '配置值')->placeholder('请输入内容')->rules('required');
         }
