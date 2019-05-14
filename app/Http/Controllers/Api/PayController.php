@@ -4,13 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Core\Core;
 use App\Http\Requests\Api\PayRequest;
-use App\Models\BalanceDetail;
-use App\Models\Enum\BalanceDetailEnum;
-use App\Models\Enum\OrderEnum;
 use App\Models\Enum\PayEnum;
 use App\Models\Order;
-use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use Yansongda\LaravelPay\Facades\Pay;
 
 class PayController extends ApiBaseController
@@ -76,7 +71,7 @@ class PayController extends ApiBaseController
         $payData = [
             'body' => '淘金-订单支付',
             'subject' => '淘金',
-            'out_trade_no' => $order['sn'],
+            'out_trade_no' => $order->sn,
             'notify_url' => route('verify.notify'),
             'total_amount' => $order->total,
             'product_code' => 'QUICK_MSECURITY_PAY'
@@ -94,10 +89,10 @@ class PayController extends ApiBaseController
             'body' => '淘金-订单支付',
             'nonce_str' => md5(rand(1, 100000000)),
             'notify_url' => route('verify.wx-notify'),
-            'out_trade_no' => $order['sn'],
+            'out_trade_no' => $order->sn,
             'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
             //'total_fee'        => intval($order['total'] * 100), //实际金额
-            'total_fee' => 1, //测试
+            'total_fee' => intval($order->total * 100), //测试
             'trade_type' => 'APP',
         ];
         $pay_url = \GuzzleHttp\json_decode(Pay::wechat()->app($payData)->getContent(),true);
