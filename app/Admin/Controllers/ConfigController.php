@@ -158,7 +158,7 @@ class ConfigController extends Controller
         }else if($type == 'config'){
             $form->weditor('value', '配置值')->placeholder('请输入内容')->rules('required');
         }else if($type == 'home'){
-            $form->editor('value', '配置值')->placeholder('请输入内容')->rules('required');
+            $form->ueditor('value', '配置值')->placeholder('请输入内容')->rules('required');
         }else{
             $form->textarea('value', '配置值')->placeholder('请输入内容')->rules('required');
         }
