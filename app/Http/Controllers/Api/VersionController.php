@@ -65,7 +65,7 @@ class VersionController extends Controller
             return show(Core::HTTP_ERROR_CODE,'非法请求');
         if($nowVersion[0] > $useVersion[0] || $nowVersion[1] > $useVersion[1]){
             $config->update = 'big';
-        }else if($config->version != $data['version']){
+        }else if($config->version > $data['version']){
             $config->update = 'small';
         }
         $config->hot_url = config('app.url').'/taojin.wgt';
