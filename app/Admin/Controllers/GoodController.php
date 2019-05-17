@@ -153,7 +153,7 @@ class GoodController extends Controller
         $form->text('title', '商品名称');
         $form->decimal('price', '价格');
         $form->number('sales_volume', '销量');
-        $form->weditor('describe', '内容')->placeholder('请输入内容')->rules('required');
+        $form->editor('describe', '内容')->placeholder('请输入内容')->rules('required');
 //        $form->switch('status', '启用？')->default(GoodEnum::GOOD_STATUS_TRUE);
 //        $form->number('stock', '库存');
         $form->multipleImage('pictures','商品图片')->removable();
