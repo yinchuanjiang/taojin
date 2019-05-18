@@ -16,7 +16,7 @@
         }
 
         #perspective {
-            perspective: 800px;
+            perspective: 2400px;
         }
 
         #wrap {
@@ -58,7 +58,7 @@
 <body>
 <div id="perspective">
     <div id='wrap'>
-        <img src="img/1.png"/>
+        <img src="img/1.png" style="z-index: 99"/>
         <img src="img/2.png"/>
         <img src="img/3.png"/>
         <img src="img/4.png"/>
@@ -85,7 +85,7 @@
         var roY = 0, roX = -10;
         var timer;
         for (var i = 0; i < oImgLength; i++) {
-            oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) translateZ(350px)';
+            oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) rotateZ(10deg) translateZ(350px)';
             oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
 
         }
@@ -98,17 +98,17 @@
 
         var i = 0;
         var t = setInterval(function () {
-            oWrap.style.transform = 'rotateY(' + i * 1 + 'deg) rotateY(' + 0 + 'deg)';
+            oWrap.style.transform = 'rotateY(' + i * 1 + 'deg)';
             i++;
         }, 25)
 
         setTimeout(function () {
             clearInterval(t)
             for (var i =0; i < oImgLength; i++) {
-                oImg[i].style.transform = 'rotateY(0deg) translateZ(0px)';
+                oImg[i].style.transform = 'rotateY(240deg) translateZ(0px)';
                 oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
             }
-        },9000)
+        },3000)
         // 拖拽：三个事件-按下 移动 抬起
         //按下
         document.onmousedown = function (ev) {
