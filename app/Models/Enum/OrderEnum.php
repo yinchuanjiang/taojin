@@ -15,7 +15,7 @@ class OrderEnum{
     const FINISH = 3;//已完成
     const AUTO_CANCEL_TIME = 30;//订单字段取消时间/分钟
 
-    const ALIYPAY = '1000';
+    const ALIYPAY = '10000';
     const WEICHAT_PAY = '10001';
 
     public static function getStatusName($status){

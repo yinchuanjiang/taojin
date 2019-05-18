@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('quantity')->comment('数量');
             $table->decimal('total',10,2)->comment('总价格');
             $table->tinyInteger('status')->default(\App\Models\Enum\OrderEnum::PAYING)->comment('状态');
-            $table->string('pay_type',4)->nullable()->comment('支付方式');
+            $table->string('pay_type',5)->nullable()->comment('支付方式');
             $table->unsignedInteger('express_id')->comment('物流id')->nullable();
             $table->string('express_code')->comment('快递单号')->nullable();
             $table->json('address')->comment('收货地址');
