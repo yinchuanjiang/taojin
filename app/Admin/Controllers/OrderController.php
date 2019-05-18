@@ -104,6 +104,14 @@ class OrderController extends Controller
             }
             return "<span class='label {$color}'>".OrderEnum::getStatusName($status)."</span>";
         });
+        $grid->pay_type('支付方式')->display(function ($type){
+            if(!$type) {
+                $color = 'label-default';
+            }else{
+                $color = 'label-success';
+            }
+            return "<span class='label {$color}'>".OrderEnum::getStatusName($type)."</span>";
+        });
         $grid->address('地址')->display(function ($address){
             $address = \GuzzleHttp\json_decode($address,true);
             return '收件人:'.$address['to_name'].' 联系方式: '.$address['mobile'].' 地址：'.$address['address'].$address['detail'];
@@ -121,6 +129,11 @@ class OrderController extends Controller
                 OrderEnum::FINISH => OrderEnum::getStatusName(OrderEnum::FINISH),
             ];
             $filter->equal('status','订单状态')->select($status);
+            $types = [
+                OrderEnum::ALIYPAY => OrderEnum::getStatusName(OrderEnum::ALIYPAY),
+                OrderEnum::WEICHAT_PAY => OrderEnum::getStatusName(OrderEnum::WEICHAT_PAY),
+            ];
+            $filter->equal('pay_type','支付方式')->select($types);
             $filter->where(function ($query) {
                 $query->whereHas('user', function ($query) {
                     $query->where('mobile', 'like', "%{$this->input}%");

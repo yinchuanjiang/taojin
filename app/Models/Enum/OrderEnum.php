@@ -15,6 +15,9 @@ class OrderEnum{
     const FINISH = 3;//已完成
     const AUTO_CANCEL_TIME = 30;//订单字段取消时间/分钟
 
+    const ALIYPAY = '1000';
+    const WEICHAT_PAY = '10001';
+
     public static function getStatusName($status){
         switch ($status){
             case self::CANCEL:
@@ -27,6 +30,10 @@ class OrderEnum{
                 return '已发货';
             case self::FINISH:
                 return '已完成';
+            case self::ALIYPAY:
+                return '支付宝';
+            case self::WEICHAT_PAY:
+                return '微信支付';
             default:
                 return '已完成';
         }

@@ -44,6 +44,7 @@ class VerifyController extends Controller
                 if ($data->total_amount != $order->total)
                     die;
                 $order->status = OrderEnum::PAYED;
+                $order->pay_type = OrderEnum::ALIYPAY;
                 $order->save();
                 $this->distributor($order->user);
             }
@@ -79,6 +80,7 @@ class VerifyController extends Controller
                 if ($data->cash_fee != $order->total * 100)
                     die;
                 $order->status = OrderEnum::PAYED;
+                $order->pay_type = OrderEnum::WEICHAT_PAY;
                 $order->save();
                 $this->distributor($order->user);
             }
