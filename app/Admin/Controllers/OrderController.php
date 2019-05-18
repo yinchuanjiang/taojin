@@ -107,10 +107,12 @@ class OrderController extends Controller
         $grid->pay_type('支付方式')->display(function ($type){
             if(!$type) {
                 $color = 'label-default';
+                $type = '未付款';
             }else{
                 $color = 'label-success';
+                $type = OrderEnum::getStatusName($type);
             }
-            return "<span class='label {$color}'>".OrderEnum::getStatusName($type)."</span>";
+            return "<span class='label {$color}'>".$type."</span>";
         });
         $grid->address('地址')->display(function ($address){
             $address = \GuzzleHttp\json_decode($address,true);
