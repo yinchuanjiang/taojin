@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: space-around;
+    }
+    div {
+      box-sizing: border-box;
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class="div"></div>
+  <div class="div1"></div>
+</body>
+</html>
+<script src="./particle.js"></script>
+<script>
+
+  particle({
+    el: '.div',
+    // startX: 0.1,
+    // startY: 0.1,
+    num: 100,
+    shape: 0.1,
+    isMouseEvent: true
+  })
+  particle({
+    el: '.div1',
+    num: 100,
+    shape: 0.1
+  })
+  // particle()
+</script>

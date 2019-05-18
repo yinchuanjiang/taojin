@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .img {
+        width: 5%;
+        border: 1px solid black;
+        position: absolute;
+        opacity: 0.5;
+        border: 2px solid black;
+        border-radius: 3px;
+    }
+    canvas{
+        width: 100%;
+        height: 100%;
+    }
+    #app{
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<body>
+<div id="app">
+    <img class="source img" src="https://lorempixel.com/640/480/?34141" alt="" style="display: none">
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="particle/particle.js"></script>
+<script>
+    var startX = window.innerWidth/2;
+    var startY = window.innerHeight/2;
+    $('#app').css({'width':window.innerWidth,'height':window.innerHeight})
+    particle({
+        el: '#app',
+        startX: startX,
+        startY: startY,
+        num: 100,
+        shape: 0.2,
+        isMouseEvent: false
+    })
+</script>
+<script>
+    $(function () {
+//        $(".source").animate({right: 0, bottom: 0, opacity: 1, width: '50%'}, 15000);
+        var i = 0;
+        setInterval(function () {
+            parseInt(Math.random()*(1000-100+1)+100,10);
+            Math.floor(Math.random()*(1000-100+1)+100);
+            let width = Math.floor(Math.random()*(1000-100+1)+100);
+            let height = Math.floor(Math.random()*(1000-100+1)+100);
+            var a = i;
+            if (i % 6 == 1) {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="left: 50%;top: 50%;">')
+                $(".source" + i).animate({left: -200, top: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            } else if (i % 6 == 2) {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="right: 50%;top: 50%;">')
+                $(".source" + i).animate({right: -200, top: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            } else if (i % 6 == 3) {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="right: 50%;bottom: 50%;">')
+                $(".source" + i).animate({right: -200, bottom: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            } else if (i % 6 == 4) {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="left: 50%;bottom: 50%;">')
+                $(".source" + i).animate({left: -200, bottom: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            } else if (i % 6 == 5) {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="left: 50%;bottom: 50%;">')
+                $(".source" + i).animate({left: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            } else {
+                $('.source').after('<img class="source' + i + ' img" src="https://lorempixel.com/'+width+'/'+height+'/?34141" alt="" style="right: 50%;bottom: 50%;">')
+                $(".source" + i).animate({right: -200, opacity: 1, width: '50%'}, 15000, function () {
+                    $(".source" + a).hide();
+                });
+            }
+            i++;
+        }, 500)
+    })
+</script>
+</html>
