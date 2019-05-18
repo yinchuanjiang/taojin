@@ -16,7 +16,7 @@
         }
 
         #perspective {
-            perspective: 2400px;
+            perspective: 800px;
         }
 
         #wrap {
@@ -26,7 +26,7 @@
             position: relative;
             /*搭建3D效果必须的两个属性：一个变换风格变3d，一个场景景深800px*/
             transform-style: preserve-3d;
-            transform: rotateX(-10deg) rotateY(0deg);
+            transform: rotateX(-15deg) rotateY(0deg);
 
         }
 
@@ -77,6 +77,7 @@
 
 <script type="text/javascript">
     window.onload = function () {
+        var perspective = document.getElementById('perspective');
         var oWrap = document.getElementById('wrap');
         var oImg = oWrap.getElementsByTagName('img');
         var oImgLength = oImg.length;
@@ -85,7 +86,7 @@
         var roY = 0, roX = -10;
         var timer;
         for (var i = 0; i < oImgLength; i++) {
-            oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) rotateZ(10deg) translateZ(350px)';
+            oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) translateZ(350px)';
             oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
 
         }
@@ -102,13 +103,13 @@
             i++;
         }, 25)
 
-        setTimeout(function () {
-            clearInterval(t)
-            for (var i =0; i < oImgLength; i++) {
-                oImg[i].style.transform = 'rotateY(240deg) translateZ(0px)';
-                oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
-            }
-        },3000)
+//        setTimeout(function () {
+//            clearInterval(t)
+//            for (var i =0; i < oImgLength; i++) {
+//                oImg[i].style.transform = 'rotateY(240deg) translateZ(0px)';
+//                oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
+//            }
+//        },3000)
         // 拖拽：三个事件-按下 移动 抬起
         //按下
         document.onmousedown = function (ev) {
@@ -136,7 +137,6 @@
                 roX -= minusY * 0.1;
 
                 oWrap.style.transform = 'rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
-
                 /*
                  //生成div，让div跟着鼠标动
                  var oDiv = document.createElement('div');
@@ -168,7 +168,6 @@
             return false;
         }
     }
-
 </script>
 </body>
 </html>
