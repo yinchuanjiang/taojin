@@ -22,7 +22,7 @@ class GoodResource extends JsonResource
             'price' => $this->price,
             'sales_volume' => $this->sales_volume,
             //'describe' => htmlspecialchars($this->describe),
-            'describe' => str_replace('<img src="/uploads/','<img src="'.config('app.url').'/uploads/',$this->describe),
+            'describe' => str_replace('src="/uploads/','src="'.config('app.url').'/uploads/',$this->describe),
 //            'stock' => $this->stock,
             'good_imgs' => $this->getPictures($this->pictures),
         ];
